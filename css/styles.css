@@ -168,49 +168,17 @@ a {
     font-weight: bold;
     color: #3a0091;
     display: inline-block;
-    text-decoration: none; /* Remove o sublinhado do link */
-    transition: color 0.3s ease; /* Transição suave para a cor do texto */
+    text-decoration: none;
+    transition: color 0.3s ease;
 }
 
 .plano4:hover {
-    color: #016234; /* Cor ao passar o mouse */
+    color: #016234;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+.cell{
+    color: orange;
+}
 
 .logo {
     width: 250px;
