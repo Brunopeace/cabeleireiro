@@ -1,34 +1,68 @@
 body {
       margin: 0;
-      padding: 0;
+      padding: 20px;
       background: linear-gradient(to right, #ffdde1, #ee9ca7);
       font-family: 'Segoe UI', sans-serif;
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
+      min-height: 100vh;
+      box-sizing: border-box;
     }
+
     .card {
       background: white;
       border-radius: 20px;
-      padding: 20px;
-      max-width: 420px;
+      padding: 30px;
+      width: 90%;
+      max-width: 400px;
       text-align: center;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-      overflow: hidden;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      animation: fadeIn 1.5s ease-in-out;
     }
+
     .card img {
-      width: 57%;
-      border-radius: 15px;
-      margin-bottom: 20px;
+      max-width: 57%;
+      height: auto;
+      border-radius: 10px;
+      margin-bottom: 15px;
     }
-    .card h1 {
-      color: #d94f70;
-      font-size: 26px;
+
+    .titulo-festivo {
+      font-size: clamp(24px, 6vw, 32px);
+      background: linear-gradient(45deg, #ff6ec4, #7873f5, #4ADEDE);
+      background-size: 300% 300%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: pulseGlow 3s ease-in-out infinite, gradientMove 5s linear infinite;
+      text-shadow: 0 0 10px rgba(255, 105, 180, 0.3);
       margin-bottom: 10px;
     }
+
+    @keyframes pulseGlow {
+      0%, 100% { text-shadow: 0 0 10px rgba(255, 105, 180, 0.3); }
+      50% { text-shadow: 0 0 20px rgba(255, 105, 180, 0.7); }
+    }
+
+    @keyframes gradientMove {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
     .card p {
       font-size: 16px;
       color: #333;
-      margin-bottom: 15px;
+      margin-bottom: 20px;
+    }
+
+    .signature {
+      margin-top: 30px;
+      font-style: italic;
+      color: #888;
     }
