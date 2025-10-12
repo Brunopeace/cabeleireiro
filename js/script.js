@@ -1,4 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
+  const PREFIXO = "barbearia_"; // 🔹 Prefixo exclusivo deste app
+
   const form = document.getElementById("formCliente");
   const lista = document.getElementById("listaClientes");
   const lixeiraLista = document.getElementById("lixeiraClientes");
@@ -26,9 +28,18 @@ document.addEventListener("DOMContentLoaded", () => {
   const listaAgendamentosCliente = document.getElementById("listaAgendamentosCliente");
   const btnVoltarAgendar = document.getElementById("btnVoltarAgendar");
 
-  let clientes = JSON.parse(localStorage.getItem("clientes")) || [];
-  let lixeira = JSON.parse(localStorage.getItem("lixeira")) || [];
-  let fotosGaleria = JSON.parse(localStorage.getItem("fotosGaleria")) || [];
+  // 🔹 Funções utilitárias para o localStorage com prefixo
+  function salvar(chave, valor) {
+    localStorage.setItem(PREFIXO + chave, JSON.stringify(valor));
+  }
+
+  function carregar(chave) {
+    return JSON.parse(localStorage.getItem(PREFIXO + chave)) || [];
+  }
+
+  let clientes = carregar("clientes");
+  let lixeira = carregar("lixeira");
+  let fotosGaleria = carregar("fotosGaleria");
 
   const SENHA_BARBEIRO = "0000";
 
@@ -42,13 +53,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Alternar para painel do barbeiro com senha
   btnBarbeiro.addEventListener("click", () => {
-    const acessoSalvo = localStorage.getItem("acessoBarbeiro");
+    const acessoSalvo = localStorage.getItem(PREFIXO + "acessoBarbeiro");
     if (acessoSalvo === "true") {
       mostrarPainelBarbeiro();
     } else {
       const senha = prompt("Digite a senha do barbeiro:");
       if (senha === SENHA_BARBEIRO) {
-        localStorage.setItem("acessoBarbeiro", "true");
+        localStorage.setItem(PREFIXO + "acessoBarbeiro", "true");
         mostrarPainelBarbeiro();
       } else if (senha !== null) {
         alert("⚠️ Senha incorreta! Acesso negado.");
@@ -121,104 +132,95 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
-
-// ======== Verificar se a barbearia está aberta ========
-function barbeariaAberta() {
-  const agora = new Date();
-  const hora = agora.getHours();
-  return hora >= 9 && hora < 17; // Aberta das 9h às 17h
-}
-
-function atualizarStatusBarbearia() {
-  const statusEl = document.getElementById("statusBarbearia");
-  if (!statusEl) return;
-
-  if (barbeariaAberta()) {
-    statusEl.textContent = "🟢 Estamos abertos agora - Agende seu horário!";
-    statusEl.className = "status aberto";
-  } else {
-    statusEl.textContent = "🔴 Estamos fechados agora - Funcionamos das 09:00 às 17:00";
-    statusEl.className = "status fechado";
+  // ======== Verificar se a barbearia está aberta ========
+  function barbeariaAberta() {
+    const agora = new Date();
+    const hora = agora.getHours();
+    return hora >= 9 && hora < 17; // Aberta das 9h às 17h
   }
-}
 
-// Atualiza status ao carregar e a cada minuto
-atualizarStatusBarbearia();
-setInterval(atualizarStatusBarbearia, 60000);
+  function atualizarStatusBarbearia() {
+    const statusEl = document.getElementById("statusBarbearia");
+    if (!statusEl) return;
+
+    if (barbeariaAberta()) {
+      statusEl.textContent = "🟢 Estamos abertos agora - Agende seu horário!";
+      statusEl.className = "status aberto";
+    } else {
+      statusEl.textContent = "🔴 Estamos fechados agora - Funcionamos das 09:00 às 17:00";
+      statusEl.className = "status fechado";
+    }
+  }
+
+  atualizarStatusBarbearia();
+  setInterval(atualizarStatusBarbearia, 60000);
 
   // ======== Agendar ========
-form.addEventListener("submit", e => {
-  e.preventDefault();
-  const nome = document.getElementById("nomeCliente").value.trim();
-  const data = document.getElementById("dataHorario").value;
-  const servico = document.getElementById("servico").value;
+  form.addEventListener("submit", e => {
+    e.preventDefault();
+    const nome = document.getElementById("nomeCliente").value.trim();
+    const data = document.getElementById("dataHorario").value;
+    const servico = document.getElementById("servico").value;
 
-  if (!nome || !data || !servico) return alert("Preencha todos os campos!");
+    if (!nome || !data || !servico) return alert("Preencha todos os campos!");
 
-  // 🕒 Verifica se o horário selecionado está dentro do expediente
-  const dataSelecionada = new Date(data);
-  const horaSelecionada = dataSelecionada.getHours();
-  if (horaSelecionada < 9 || horaSelecionada >= 17) {
-    alert("⚠️ Só é possível agendar para o outro dia das 09:00 as 17:00.");
-    return;
-  }
+    const dataSelecionada = new Date(data);
+    const horaSelecionada = dataSelecionada.getHours();
+    if (horaSelecionada < 9 || horaSelecionada >= 17) {
+      alert("⚠️ Só é possível agendar para o outro dia das 09:00 às 17:00.");
+      return;
+    }
 
-  // 🛑 Verifica se já existe agendamento no mesmo horário
-  const horarioOcupado = clientes.some(c => c.data === data);
-  if (horarioOcupado) {
-    alert("⚠️ Já existe um agendamento neste horário. Por favor, escolha outro.");
-    return;
-  }
+    const horarioOcupado = clientes.some(c => c.data === data);
+    if (horarioOcupado) {
+      alert("⚠️ Já existe um agendamento neste horário. Por favor, escolha outro.");
+      return;
+    }
 
-  // ✅ Caso esteja livre, adiciona normalmente
-  clientes.push({ nome, data, servico, confirmado: false });
-  localStorage.setItem("clientes", JSON.stringify(clientes));
-  form.reset();
-  alert("✅ Agendamento realizado com sucesso!");
-  atualizarListas();
-});
+    clientes.push({ nome, data, servico, confirmado: false });
+    salvar("clientes", clientes);
+    form.reset();
+    alert("✅ Agendamento realizado com sucesso!");
+    atualizarListas();
+  });
 
-  // 🔹 Confirmar agendamento (barbeiro)
+  // ======== Funções principais ========
   window.confirmarAgendamento = (i) => {
     clientes[i].confirmado = true;
-    localStorage.setItem("clientes", JSON.stringify(clientes));
+    salvar("clientes", clientes);
     alert(`✅ Agendamento de ${clientes[i].nome} confirmado com sucesso!`);
     atualizarListas();
   };
 
-  // 🔹 Mover cliente para lixeira
   window.moverParaLixeira = (i) => {
     const removido = clientes.splice(i, 1)[0];
     lixeira.push(removido);
-    localStorage.setItem("clientes", JSON.stringify(clientes));
-    localStorage.setItem("lixeira", JSON.stringify(lixeira));
+    salvar("clientes", clientes);
+    salvar("lixeira", lixeira);
     atualizarListas();
   };
 
-  // 🔹 Restaurar cliente
   window.restaurarCliente = (i) => {
     const restaurado = lixeira.splice(i, 1)[0];
     clientes.push(restaurado);
-    localStorage.setItem("clientes", JSON.stringify(clientes));
-    localStorage.setItem("lixeira", JSON.stringify(lixeira));
+    salvar("clientes", clientes);
+    salvar("lixeira", lixeira);
     atualizarListas();
   };
 
-  // 🔹 Excluir definitivamente
   window.excluirDefinitivo = (i) => {
     if (confirm("Excluir definitivamente este cliente?")) {
       lixeira.splice(i, 1);
-      localStorage.setItem("lixeira", JSON.stringify(lixeira));
+      salvar("lixeira", lixeira);
       atualizarListas();
     }
   };
 
-  // 🔹 Cancelar agendamento (cliente)
   window.cancelarAgendamento = (i) => {
     if (confirm("Deseja realmente cancelar este agendamento?")) {
       clientes.splice(i, 1);
-      localStorage.setItem("clientes", JSON.stringify(clientes));
-      alert("Agendamento cancelado com sucesso.");
+      salvar("clientes", clientes);
+      alert("❌ Agendamento cancelado com sucesso.");
       atualizarListas();
     }
   };
@@ -233,7 +235,6 @@ form.addEventListener("submit", e => {
     cardLixeira.classList.add("oculto");
     cardGaleria.classList.add("oculto");
     mostrandoLixeira = false;
-
     btnVerAgendamentos.classList.add("ativo");
     btnVerLixeira.classList.remove("ativo");
     btnVerGaleria.classList.remove("ativo");
@@ -270,7 +271,7 @@ form.addEventListener("submit", e => {
       imgBarbeiro.addEventListener("click", () => {
         if (confirm("Remover esta foto da galeria?")) {
           fotosGaleria.splice(index, 1);
-          localStorage.setItem("fotosGaleria", JSON.stringify(fotosGaleria));
+          salvar("fotosGaleria", fotosGaleria);
           atualizarGaleria();
         }
       });
@@ -290,7 +291,7 @@ form.addEventListener("submit", e => {
     const leitor = new FileReader();
     leitor.onload = (e) => {
       fotosGaleria.push(e.target.result);
-      localStorage.setItem("fotosGaleria", JSON.stringify(fotosGaleria));
+      salvar("fotosGaleria", fotosGaleria);
       inputFoto.value = "";
       atualizarGaleria();
     };
@@ -298,28 +299,27 @@ form.addEventListener("submit", e => {
   });
 
   // ======== CLIENTE: Ver agendamentos ========
-const modalAgendamentos = document.getElementById("modalAgendamentos");
-const fecharModal = modalAgendamentos?.querySelector(".fechar-modal");
+  const modalAgendamentos = document.getElementById("modalAgendamentos");
+  const fecharModal = modalAgendamentos?.querySelector(".fechar-modal");
 
-if (btnVerAgendamentosCliente) {
-  btnVerAgendamentosCliente.addEventListener("click", () => {
-    atualizarListas();
-    modalAgendamentos.style.display = "flex";
-  });
-}
-
-if (fecharModal) {
-  fecharModal.addEventListener("click", () => {
-    modalAgendamentos.style.display = "none";
-  });
-}
-
-// Fechar modal ao clicar fora dele
-window.addEventListener("click", (e) => {
-  if (e.target === modalAgendamentos) {
-    modalAgendamentos.style.display = "none";
+  if (btnVerAgendamentosCliente) {
+    btnVerAgendamentosCliente.addEventListener("click", () => {
+      atualizarListas();
+      modalAgendamentos.style.display = "flex";
+    });
   }
-});
+
+  if (fecharModal) {
+    fecharModal.addEventListener("click", () => {
+      modalAgendamentos.style.display = "none";
+    });
+  }
+
+  window.addEventListener("click", (e) => {
+    if (e.target === modalAgendamentos) {
+      modalAgendamentos.style.display = "none";
+    }
+  });
 
   // ======== Instalação PWA ========
   let promptEvento;
