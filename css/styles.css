@@ -1,68 +1,612 @@
-body {
-      margin: 0;
-      padding: 20px;
-      background: linear-gradient(to right, #ffdde1, #ee9ca7);
-      font-family: 'Segoe UI', sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      box-sizing: border-box;
-    }
+* {  
+  margin: 0;  
+  padding: 0;  
+  box-sizing: border-box;  
+  font-family: "Poppins", sans-serif;  
+}  
+  
+body {  
+  background: #f4f6fa;  
+  color: #333;  
+  min-height: 100vh;  
+  display: flex;  
+  flex-direction: column;  
+}  
+  
+.instalar {          
+  position: fixed;          
+  bottom: 20px;          
+  right: 20px;          
+  background: linear-gradient(135deg, #0d6efd, #6610f2);          
+  color: #fff;          
+  border: none;          
+  padding: 12px 16px;          
+  border-radius: 50px;          
+  font-size: 1rem;          
+  cursor: pointer;          
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);          
+  transition: 0.3s;          
+  display: none;          
+}          
+          
+.instalar:hover {          
+  transform: scale(1.05);          
+}
 
-    .card {
-      background: white;
-      border-radius: 20px;
-      padding: 30px;
-      width: 90%;
-      max-width: 400px;
-      text-align: center;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-      animation: fadeIn 1.5s ease-in-out;
-    }
+.h2-agendar {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
 
-    .card img {
-      max-width: 57%;
-      height: auto;
-      border-radius: 10px;
-      margin-bottom: 15px;
-    }
+.h2-barbeiro {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    margin-top: -10px;
+    margin-bottom: 5px;
+}
+  
+.status {  
+  text-align: center;  
+  font-size: 1rem;  
+  margin-bottom: 12px;  
+  font-weight: 600;  
+  padding: 10px;  
+  border-radius: 10px;  
+  transition: 0.3s ease;  
+}  
+  
+.status.aberto {  
+  background: #d1f7d6;  
+  color: #0d6efd;  
+  box-shadow: 0 0 8px rgba(13, 110, 253, 0.2);  
+}  
+  
+.status.fechado {  
+  background: #ffe0e0;  
+  color: #c31432;  
+  box-shadow: 0 0 8px rgba(195, 20, 50, 0.2);  
+}  
+  
+/* =========================  
+   CABEÇALHO  
+========================= */  
 
-    .titulo-festivo {
-      font-size: clamp(24px, 6vw, 32px);
-      background: linear-gradient(45deg, #ff6ec4, #7873f5, #4ADEDE);
-      background-size: 300% 300%;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      animation: pulseGlow 3s ease-in-out infinite, gradientMove 5s linear infinite;
-      text-shadow: 0 0 10px rgba(255, 105, 180, 0.3);
-      margin-bottom: 10px;
-    }
+  header {
+  position: relative;
+  background: linear-gradient(
+      rgba(0, 0, 0, 0.1), 
+      rgba(0, 0, 0, 0.1)
+    ),
+    url("../img/barbearia-bg.jpg") center/cover no-repeat;
+  color: #fff;
+  text-align: center;
+  padding: 25px 10px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
+  border-bottom: 4px solid #0d6efd;
+}
 
-    @keyframes pulseGlow {
-      0%, 100% { text-shadow: 0 0 10px rgba(255, 105, 180, 0.3); }
-      50% { text-shadow: 0 0 20px rgba(255, 105, 180, 0.7); }
-    }
+header h1 {
+  font-size: 2rem;
+  letter-spacing: 1px;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+  margin-bottom: 12px;
+}
+  
+/* =========================  
+   BOTÕES SUPERIORES  
+========================= */  
+.painel-switch {  
+  display: flex;  
+  justify-content: center;  
+  gap: 12px;  
+  margin: 20px auto;  
+}  
+  
+.painel-switch button {  
+  background: #0d6efd;  
+  color: #ffffff;  
+  border: 2px solid #0d6efd;  
+  padding: 10px 20px;  
+  border-radius: 25px;  
+  cursor: pointer;  
+  transition: all 0.3s;  
+  font-weight: 600;  
+}  
+  
+.painel-switch button:hover {  
+  background: #ffffff;  
+  color: #0d6efd;  
+}  
+  
+.painel-switch button.ativo {  
+  background: #ffffff;  
+  color: #0d6efd;  
+  box-shadow: 0 0 10px rgba(13, 110, 253, 0.3);  
+}  
+  
+/* =========================  
+   PAINÉIS  
+========================= */  
+main {  
+  flex: 1;  
+  padding: 20px;  
+}  
+  
+.painel {  
+  display: none;  
+  animation: fadeIn 0.4s ease;  
+}  
+  
+.painel.ativo {  
+  display: block;  
+}  
+  
+/* =========================  
+   MENU DO BARBEIRO  
+========================= */  
+.menuBarbeiro {  
+  display: flex;  
+  justify-content: center;  
+  gap: 10px;  
+  flex-wrap: wrap;  
+  background: #fff;  
+  padding: 12px;  
+  border-radius: 12px;  
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);  
+  margin-bottom: 18px;  
+}  
+  
+.menuBarbeiro button {  
+  background: linear-gradient(135deg, #0d6efd, #6610f2);  
+  color: #fff;  
+  border: none;  
+  padding: 10px 18px;  
+  border-radius: 25px;  
+  cursor: pointer;  
+  transition: all 0.3s ease;  
+  font-weight: 500;  
+}  
+  
+.menuBarbeiro button:hover {  
+  background: linear-gradient(135deg, #0b5ed7, #520dc2);  
+}  
+  
+.menuBarbeiro button.ativo {  
+  background: #fff;  
+  color: #0d6efd;  
+  border: 2px solid #0d6efd;  
+}  
+  
+/* =========================
+   FORMULÁRIO DE AGENDAMENTO
+========================= */
+form {
+  background: #ffffff;
+  padding: 25px 30px;
+  border-radius: 15px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+  max-width: 420px;
+  margin: 20px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  transition: all 0.3s ease;
+}
 
-    @keyframes gradientMove {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
+form:hover {
+  box-shadow: 0 6px 25px rgba(13, 110, 253, 0.15);
+  transform: translateY(-2px);
+}
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+/* Campos de input e select */
+form input,
+form select {
+  width: 100%;
+  padding: 12px 15px;
+  border: 2px solid #e3e6f0;
+  border-radius: 10px;
+  font-size: 1rem;
+  color: #333;
+  outline: none;
+  background: #f9faff;
+  transition: all 0.3s ease;
+}
 
-    .card p {
-      font-size: 16px;
-      color: #333;
-      margin-bottom: 20px;
-    }
+form input:focus,
+form select:focus {
+  border-color: #6610f2;
+  background: #fff;
+  box-shadow: 0 0 8px rgba(102, 16, 242, 0.3);
+}
 
-    .signature {
-      margin-top: 30px;
-      font-style: italic;
-      color: #888;
-    }
+form input::placeholder {
+  color: #888;
+  font-style: italic;
+}
+
+/* Botão confirmar agendamento */
+form button {
+  background: linear-gradient(135deg, #0d6efd, #6610f2);
+  color: #fff;
+  border: none;
+  padding: 12px;
+  border-radius: 10px;
+  font-size: 1rem;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(13, 110, 253, 0.2);
+}
+
+form button:hover {
+  background: linear-gradient(135deg, #0b5ed7, #520dc2);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(13, 110, 253, 0.3);
+}  
+  
+/* =========================  
+   LISTAS GERAIS  
+========================= */  
+ul {  
+  list-style: none;  
+  margin: 0;  
+  padding: 0;  
+}  
+  
+.oculto {          
+  display: none;          
+}  
+  
+/* Áreas de conteúdo */  
+.areaPainel {          
+  background: #fff;          
+  border-radius: 12px;          
+  padding: 20px;          
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);          
+  animation: fadeIn 0.3s ease;          
+}          
+          
+.areaPainel h3 {          
+  color: #0d6efd;          
+  text-align: center;          
+  margin-bottom: 15px;          
+  font-size: 1.3rem;          
+}  
+  
+/* ======== CLIENTE: MEUS AGENDAMENTOS ======== */          
+#areaAgendamentosCliente {          
+  background: #fff;          
+  border-radius: 12px;          
+  padding: 15px;          
+  margin-top: 15px;          
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);          
+}          
+          
+#areaAgendamentosCliente h3 {          
+  text-align: center;          
+  color: #0d6efd;          
+  margin-bottom: 10px;          
+}  
+  
+/* =========================  
+   AGENDAMENTOS (BARBEIRO E CLIENTE)  
+========================= */  
+#listaClientes,  
+#listaAgendamentosCliente {  
+  display: flex;  
+  flex-direction: column;  
+  gap: 12px;  
+  max-height: 420px;  
+  overflow-y: auto;  
+  scrollbar-width: thin;  
+}  
+  
+#listaClientes li,  
+#listaAgendamentosCliente li {  
+  background: #f9fafc;  
+  border-radius: 12px;  
+  padding: 15px 20px;  
+  display: flex;  
+  justify-content: space-between;  
+  align-items: flex-start;  
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);  
+  transition: all 0.2s ease;  
+}  
+  
+#listaClientes li:hover,  
+#listaAgendamentosCliente li:hover {  
+  transform: translateY(-3px);  
+  box-shadow: 0 5px 14px rgba(0, 0, 0, 0.15);  
+}  
+  
+#listaClientes li div,  
+#listaAgendamentosCliente li div {  
+  color: #333;  
+  line-height: 1.4;  
+  font-size: 15px;  
+}  
+  
+.servicos {  
+  color: #007bff;  
+  font-weight: 600;  
+}  
+  
+/* Botões de ação */  
+.btnConfirmar {  
+  background: linear-gradient(135deg, #28a745, #218838);  
+  color: #fff;  
+  border: none;  
+  border-radius: 8px;  
+  padding: 8px 14px;  
+  cursor: pointer;  
+  transition: 0.3s;  
+}  
+  
+.btnConfirmar:hover {  
+  background: linear-gradient(135deg, #34d058, #2c974b);  
+}  
+  
+.btnExcluir {  
+  background: linear-gradient(135deg, #ff4e50, #c31432);  
+  color: #fff;  
+  border: none;  
+  border-radius: 8px;  
+  padding: 8px 14px;  
+  cursor: pointer;  
+  transition: 0.3s;  
+}  
+  
+.btnExcluir:hover {  
+  background: linear-gradient(135deg, #ff6f61, #e83e8c);  
+}  
+  
+.btnRestaurar {  
+  background: linear-gradient(135deg, #0d6efd, #6610f2);  
+  color: #fff;  
+  border: none;  
+  border-radius: 8px;  
+  padding: 8px 14px;  
+  cursor: pointer;  
+  transition: 0.3s;  
+}  
+  
+.btnRestaurar:hover {  
+  background: linear-gradient(135deg, #0b5ed7, #520dc2);  
+}  
+  
+/* =========================  
+   LIXEIRA  
+========================= */  
+#areaLixeira h3 {  
+  color: #dc3545;  
+}  
+  
+#lixeiraClientes {  
+  display: flex;  
+  flex-direction: column;  
+  gap: 10px;  
+  max-height: 350px;  
+  overflow-y: auto;  
+}  
+  
+#lixeiraClientes li {  
+  background: #fff;  
+  border-left: 5px solid #dc3545;  
+  border-radius: 8px;  
+  padding: 12px;  
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);  
+  display: flex;  
+  justify-content: space-between;  
+  align-items: center;  
+}  
+  
+/* =========================  
+   GALERIA  
+========================= */  
+#areaGaleria {  
+  margin-top: 15px;  
+}  
+  
+#areaGaleria #inputFoto {  
+  display: block;  
+  margin: 0 auto 10px;  
+  padding: 8px;  
+  border: 1px solid #ccc;  
+  border-radius: 8px;  
+  width: 100%;  
+  max-width: 320px;  
+}  
+  
+#areaGaleria #btnAdicionarFoto {  
+  display: block;  
+  margin: 10px auto 20px;  
+  background: linear-gradient(135deg, #0d6efd, #6610f2);  
+  color: #fff;  
+  border: none;  
+  padding: 10px 20px;  
+  border-radius: 25px;  
+  font-size: 0.95rem;  
+  cursor: pointer;  
+  transition: 0.3s;  
+}  
+  
+#areaGaleria #btnAdicionarFoto:hover {  
+  transform: translateY(-2px);  
+  background: linear-gradient(135deg, #0b5ed7, #520dc2);  
+}  
+  
+/* Galeria de imagens */  
+.galeria {  
+  display: grid;  
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));  
+  gap: 12px;  
+}  
+  
+.galeria img {  
+  width: 100%;  
+  height: 130px;  
+  object-fit: cover;  
+  border-radius: 10px;  
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);  
+  transition: all 0.3s ease;  
+  cursor: pointer;  
+}  
+  
+.galeria img:hover {  
+  transform: scale(1.05);  
+  box-shadow: 0 5px 12px rgba(0, 0, 0, 0.2);  
+}  
+  
+/* =========================  
+   BOTÃO SECUNDÁRIO (Cliente)  
+========================= */  
+.btn-secundario {          
+  display: block;          
+  margin: 10px auto;          
+  background: #6610f2;          
+  color: #fff;          
+  border: none;          
+  padding: 10px 20px;          
+  border-radius: 25px;          
+  font-size: 0.95rem;          
+  cursor: pointer;          
+  transition: 0.3s;          
+}          
+          
+.btn-secundario:hover {          
+  background: #520dc2;          
+  transform: translateY(-2px);          
+}  
+  
+/* =========================  
+   SCROLLBAR PERSONALIZADA  
+========================= */  
+::-webkit-scrollbar {  
+  width: 8px;  
+}  
+::-webkit-scrollbar-track {  
+  background: #f0f0f5;  
+}  
+::-webkit-scrollbar-thumb {  
+  background: linear-gradient(135deg, #0d6efd, #6610f2);  
+  border-radius: 10px;  
+}  
+  
+  
+footer {          
+  background: #0d6efd;          
+  color: #fff;          
+  text-align: center;          
+  padding: 10px;          
+  font-size: 0.9rem;          
+}  
+  
+/* =========================  
+   ANIMAÇÃO  
+========================= */  
+@keyframes fadeIn {  
+  from {  
+    opacity: 0;  
+    transform: translateY(10px);  
+  }  
+  to {  
+    opacity: 1;  
+    transform: translateY(0);  
+  }  
+}  
+  
+/* =========================  
+   RESPONSIVO  
+========================= */  
+@media (max-width: 768px) {  
+  header h1 {  
+    font-size: 1.4rem;  
+  }  
+  
+  form button,  
+  .btnExcluir,  
+  .btnConfirmar,  
+  .btnRestaurar {  
+    width: 100%;  
+    margin-top: 5px;  
+  }  
+  
+  .menuBarbeiro {  
+    flex-direction: column;  
+  }  
+  
+  .menuBarbeiro button {  
+    width: 100%;  
+  }  
+  
+  #listaClientes li,  
+  #listaAgendamentosCliente li {  
+    flex-direction: column;  
+    gap: 10px;  
+  }  
+}
+
+/* ======== MODAL DE AGENDAMENTOS ======== */
+.modal-visualizar {
+  display: none;
+  position: fixed;
+  z-index: 999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn 0.3s ease;
+}
+
+.modal-conteudo {
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  width: 90%;
+  max-width: 450px;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  animation: fadeInUp 0.4s ease;
+}
+
+.modal-conteudo h3 {
+  text-align: center;
+  color: #0d6efd;
+  margin-bottom: 15px;
+}
+
+.modal-conteudo ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.modal-conteudo li {
+  background: #f9fafc;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  padding: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.fechar-modal {
+  position: absolute;
+  font-weight: bold;
+  z-index: 9999;
+  right: 45px;
+  color: red;
+  font-size: 28px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+@keyframes fadeInUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
