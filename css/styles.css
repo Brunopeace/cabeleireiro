@@ -13,24 +13,41 @@ body {
   flex-direction: column;  
 }  
   
-.instalar {          
-  position: fixed;          
-  bottom: 20px;          
-  right: 20px;          
-  background: linear-gradient(135deg, #0d6efd, #6610f2);          
-  color: #fff;          
-  border: none;          
-  padding: 12px 16px;          
-  border-radius: 50px;          
-  font-size: 1rem;          
-  cursor: pointer;          
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);          
-  transition: 0.3s;          
-  display: none;          
-}          
-          
-.instalar:hover {          
-  transform: scale(1.05);          
+/* ===== Botão de Instalar Aplicativo ===== */
+/* ===== Botão de Instalar Aplicativo ===== */
+.instalar {
+  display: inline-flex;
+  align-items: center;           /* alinha ícone e texto na mesma linha */
+  justify-content: center;
+  gap: 8px;                      /* espaçamento entre ícone e texto */
+  background: linear-gradient(135deg, #0d6efd, #6610f2);
+  color: #fff;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 50px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+  transition: all 0.3s ease;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  display: none; /* exibido apenas quando o app for instalável */
+}
+
+.instalar:hover {
+  transform: translateY(-2px);
+  background: linear-gradient(135deg, #0b5ed7, #520dc2);
+}
+
+/* ===== Ícone do botão ===== */
+.img-instalar {
+  width: 22px;
+  height: 22px;
+  vertical-align: middle; /* mantém alinhado ao texto */
+  object-fit: contain;
+  border-radius: 5px;
 }
 
 .h2-agendar {
@@ -94,6 +111,11 @@ header h1 {
   margin-bottom: 12px;
 }
   
+
+strong {
+    color: green;
+}
+
 /* =========================  
    BOTÕES SUPERIORES  
 ========================= */  
