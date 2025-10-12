@@ -1,24 +1,103 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Feliz Aniversário, Meu Amor</title>
-  <link rel="stylesheet" href="css/styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Studio do Cabeleireiro</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="manifest" href="manifest.json">
+  <script defer src="js/app.js"></script>
 </head>
 <body>
-  <div class="card">
-    <img src="img/juntos.jpg" alt="Sempre juntos" />
-    <h1 class="titulo-festivo">Feliz Aniversário, Meu Amor!</h1>
-    <p>
-      Parabéns pelo seu dia, que ele seja tão especial quanto você é para mim. Que venham muitos outros aniversários, muitos outros sonhos, e que este amor continue crescendo e florescendo, sempre.
-    </p>
-    <p>
-      Te amo hoje, te amei ontem, e vou te amar para sempre.
-    </p>
-    <p>
-      Que esse novo ciclo venha repleto de saúde, sorrisos e realizações. Estarei sempre ao seu lado, te amando cada vez mais.
-    </p>
+  <header>
+    <h1>💈 Studio do Cabeleireiro</h1>
+    <div class="painel-switch">
+<button id="btnCliente" class="ativo">Cliente</button>
+      <button id="btnBarbeiro">Barbeiro</button>
+    </div>
+  </header>
+
+  <main>
+    <!-- Painel do Cliente -->
+    <section id="painelCliente" class="painel ativo">
+      <p id="statusBarbearia" class="status"></p>
+      <div class="h2-agendar">
+            <h2>Agendar Horário</h2>
+        </div>
+      <form id="formCliente">
+        <input type="text" id="nomeCliente" placeholder="Seu nome" required>
+        <input type="datetime-local" id="dataHorario" required>
+        <select id="servico" required>
+  <option value="">Selecione o serviço</option>
+  <option value="Corte Masculino">Corte Masculino - R$30</option>
+  <option value="Corte Feminino">Corte Feminino - R$40</option>
+  <option value="Barba">Barba - R$20</option>
+  <option value="Coloração">Coloração - R$60</option>
+  <option value="Hidratação">Hidratação - R$40</option>
+  <option value="Luzes">Luzes / Mechas - R$120</option>
+  <option value="Progressiva">Progressiva - R$150</option>
+  <option value="Escova">Escova - R$40</option>
+</select>
+ <button type="submit">Confirmar Agendamento</button>
+ <button id="btnVerAgendamentosCliente" class="btn-secundario" type="button">Ver Meus Agendamentos</button>
+      </form>
+
+
+<!-- Modal de Agendamentos -->
+<div id="modalAgendamentos" class="modal-visualizar">
+  <div class="modal-conteudo">
+    <h3>Meus Agendamentos<span class="fechar-modal">&times;</span></h3>
+    <ul id="listaAgendamentosCliente"></ul>
   </div>
+</div>
+      
+      <div id="areaAgendamentosCliente" class="oculto">
+        <h3>Meus Agendamentos</h3>
+        <ul id="listaAgendamentosCliente"></ul>
+        <button id="btnVoltarAgendar" class="btn-secundario">Voltar</button>
+      </div>
+
+      <div id="galeriaCliente" class="galeria"></div>
+    </section>
+
+    <!-- Painel do Barbeiro -->
+    <section id="painelBarbeiro" class="painel">
+        <div class="h2-barbeiro">
+            <h2>👨‍🔧 Painel do Barbeiro</h2>
+        </div>
+      
+      <div class="menuBarbeiro">
+        <button id="verAgendamentos" class="ativo">Agendamentos do Dia</button>
+     <button id="verLixeira">Abrir Lixeira</button>
+        <button id="verGaleria">Galeria</button>
+      </div>
+
+      <!-- Agendamentos -->
+      <div id="areaAgendamentos" class="areaPainel">
+        <h3>Clientes Agendados</h3>
+        <ul id="listaClientes"></ul>
+      </div>
+
+      <!-- Lixeira -->
+   <div id="areaLixeira" class="areaPainel oculto">
+        <h3>Lixeira</h3>
+        <ul id="lixeiraClientes"></ul>
+      </div>
+
+      <!-- Galeria -->
+   <div id="areaGaleria" class="areaPainel oculto">
+        <h3>Adicionar Fotos</h3>
+        <input type="file" id="inputFoto" accept="image/*">
+     <button id="btnAdicionarFoto">Adicionar</button>
+     <div id="galeriaBarbeiro" class="galeria"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Criado por Bruno silva &copy; 2025</p>
+  </footer>
+
+  <button id="btnInstalar" class="instalar">📲 Instalar Aplicativo</button>
 </body>
 </html>
