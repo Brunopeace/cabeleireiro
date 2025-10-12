@@ -86,8 +86,8 @@ document.addEventListener("DOMContentLoaded", () => {
         <div>
           <strong>${c.nome}</strong><br>
           ${new Date(c.data).toLocaleString()}<br>
-          <strong class="servicos">${c.servico}</strong><br>
-          <small>Status: ${c.confirmado ? "✅ Confirmado" : "⏳ Aguardando confirmação"}</small>
+   <strong class="servicos">${c.servico}</strong><br>
+<small>Status: ${c.confirmado ? "✅ Confirmado" : "⏳ Aguardando confirmação"}</small>
         </div>
         <div>
           ${!c.confirmado ? `<button class="btnConfirmar" onclick="confirmarAgendamento(${i})">✅ Confirmar</button>` : ""}
