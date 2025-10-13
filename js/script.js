@@ -38,34 +38,40 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   let clientes = carregar("clientes");
-  let lixeira = carregar("lixeira");
-  let fotosGaleria = carregar("fotosGaleria");
+let lixeira = carregar("lixeira");
+let fotosGaleria = carregar("fotosGaleria");
 
-  const SENHA_BARBEIRO = "0000";
+const SENHA_BARBEIRO = "5656";
+const CHAVE_ACESSO_BARBEIRO = PREFIXO + "acessoBarbeiro";
 
-  // Alternar para painel do cliente
-  btnCliente.addEventListener("click", () => {
-    painelCliente.classList.add("ativo");
-    painelBarbeiro.classList.remove("ativo");
-    btnCliente.classList.add("ativo");
-    btnBarbeiro.classList.remove("ativo");
-  });
+// Alternar para painel do cliente
+btnCliente.addEventListener("click", () => {
+  painelCliente.classList.add("ativo");
+  painelBarbeiro.classList.remove("ativo");
+  btnCliente.classList.add("ativo");
+  btnBarbeiro.classList.remove("ativo");
+});
 
-  // Alternar para painel do barbeiro com senha
-  btnBarbeiro.addEventListener("click", () => {
-    const acessoSalvo = localStorage.getItem(PREFIXO + "acessoBarbeiro");
-    if (acessoSalvo === "true") {
-      mostrarPainelBarbeiro();
-    } else {
-      const senha = prompt("Digite a senha do barbeiro:");
-      if (senha === SENHA_BARBEIRO) {
-        localStorage.setItem(PREFIXO + "acessoBarbeiro", "true");
-        mostrarPainelBarbeiro();
-      } else if (senha !== null) {
-        alert("⚠️ Senha incorreta! Acesso negado.");
-      }
-    }
-  });
+// Alternar para painel do barbeiro com verificação da senha
+btnBarbeiro.addEventListener("click", () => {
+  // 🔹 Recupera o acesso salvo (objeto com { acesso: true, senha })
+  const acessoSalvo = JSON.parse(localStorage.getItem(CHAVE_ACESSO_BARBEIRO));
+
+  // 🔹 Se o acesso é válido e a senha atual coincide, entra direto
+  if (acessoSalvo && acessoSalvo.acesso === true && acessoSalvo.senha === SENHA_BARBEIRO) {
+    mostrarPainelBarbeiro();
+    return;
+  }
+
+  // 🔹 Caso contrário, pede a senha novamente
+  const senha = prompt("Digite a senha do barbeiro:");
+  if (senha === SENHA_BARBEIRO) {
+    localStorage.setItem(CHAVE_ACESSO_BARBEIRO, JSON.stringify({ acesso: true, senha }));
+    mostrarPainelBarbeiro();
+  } else if (senha !== null) {
+    alert("⚠️ Senha incorreta! Acesso negado.");
+  }
+});
 
   function mostrarPainelBarbeiro() {
     painelBarbeiro.classList.add("ativo");
