@@ -5,7 +5,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const lista = document.getElementById("listaClientes");
   const lixeiraLista = document.getElementById("lixeiraClientes");
   const btnInstalar = document.getElementById("btnInstalar");
-
   const painelCliente = document.getElementById("painelCliente");
   const painelBarbeiro = document.getElementById("painelBarbeiro");
   const btnCliente = document.getElementById("btnCliente");
@@ -25,6 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const areaAgendamentosCliente = document.getElementById("areaAgendamentosCliente");
   const listaAgendamentosCliente = document.getElementById("listaAgendamentosCliente");
   const btnVoltarAgendar = document.getElementById("btnVoltarAgendar");
+  
 
   // 🔹 Funções utilitárias para o localStorage com prefixo
   function salvar(chave, valor) {
@@ -136,7 +136,7 @@ btnBarbeiro.addEventListener("click", () => {
     }
   };
 
-  // ======== Verificar se a barbearia está aberta ========
+  // ===== Verificar se a barbearia está aberta =====
   function barbeariaAberta() {
     const agora = new Date();
     const hora = agora.getHours();
@@ -167,7 +167,7 @@ btnBarbeiro.addEventListener("click", () => {
   } else {
     statusEl.innerHTML = `
       <span class="emoji">🌙</span> 
-      <strong>Encerramos por hoje</strong><br>
+      <strong Class="titulomsgfechado">Encerramos por hoje</strong><br>
       <small>Funcionamos das <b class="hora-fechado">09:00 às 17:00</b>. Reserve seu horário para amanhã 💇‍♂️</small>
     `;
     statusEl.className = "status fechado";
@@ -196,20 +196,20 @@ form.addEventListener("submit", e => {
   const horaSelecionada = dataSelecionada.getHours();
   const agora = new Date();
 
-  // 🕒 Verifica se o horário selecionado está dentro do expediente
+  // 🕒 Verifica se o horário está dentro do expediente
   if (horaSelecionada < 9 || horaSelecionada >= 17) {
-    alert("💈 Estamos fora do horário de atendimento (09:00 às 17:00). Mas relaxa, você pode garantir seu horário para amanhã dentro do período de funcionamento! 😉");
+    alert("💈 Os agendamentos são realizados apenas entre 09:00 e 17:00. Mas não se preocupe — você pode reservar um horário para amanhã nesse período! 😉");
     return;
   }
 
   // 🔹 Se for o mesmo dia, verifica se a barbearia ainda está aberta
   const mesmoDia = dataSelecionada.toDateString() === agora.toDateString();
   if (mesmoDia && (agora.getHours() < 9 || agora.getHours() >= 17)) {
-    alert("O estabelecimento está fechado agora. Você pode agendar para outro dia dentro do horário de funcionamento. 😉");
+    alert("O estabelecimento está fechado agora. Você pode agendar para outro dia dentro do horário de funcionamento. 💈");
     return;
   }
 
-  // 🛑 Impede agendamentos duplicados no mesmo horário
+  // 🛑 Evita agendamentos duplicados no mesmo horário
   const horarioOcupado = clientes.some(c => c.data === dataHora);
   if (horarioOcupado) {
     alert("⚠️ Já existe um agendamento neste horário. Por favor, escolha outro horário disponível.");
@@ -220,10 +220,23 @@ form.addEventListener("submit", e => {
   clientes.push({ nome, data: dataHora, servico, confirmado: false });
   salvar("clientes", clientes);
   form.reset();
-  alert("✅ Agendamento realizado com sucesso!");
   atualizarListas();
+
+  // 🎉 Mostra popup de confirmação
+  const popup = document.getElementById("confirmacaoAgendamento");
+  const nomeEl = document.getElementById("nomeConfirmado");
+  nomeEl.textContent = nome;
+
+  popup.classList.remove("oculto");
+  popup.style.display = "block";
+
+  // Fecha automaticamente depois de alguns segundos
+  setTimeout(() => {
+    popup.classList.add("oculto");
+    popup.style.display = "none";
+  }, 6000);
 });
-  
+
   // ======== Funções principais ========
   window.confirmarAgendamento = (i) => {
     clientes[i].confirmado = true;
