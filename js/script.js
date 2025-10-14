@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
 let lixeira = carregar("lixeira");
 let fotosGaleria = carregar("fotosGaleria");
 
-const SENHA_BARBEIRO = "5656";
+const SENHA_BARBEIRO = "0000";
 const CHAVE_ACESSO_BARBEIRO = PREFIXO + "acessoBarbeiro";
 
 // Alternar para painel do cliente
@@ -146,50 +146,86 @@ btnBarbeiro.addEventListener("click", () => {
   }
 
   function atualizarStatusBarbearia() {
-    const statusEl = document.getElementById("statusBarbearia");
-    if (!statusEl) return;
+  const statusEl = document.getElementById("statusBarbearia");
+  if (!statusEl) return;
 
-    if (barbeariaAberta()) {
-      statusEl.textContent = "🟢 Estamos abertos agora - Agende seu horário!";
-      statusEl.className = "status aberto";
-    } else {
-      statusEl.textContent = "🔴 Estamos fechados agora - Funcionamos das 09:00 às 17:00";
-      statusEl.className = "status fechado";
-    }
+  const agora = new Date();
+  const hora = agora.getHours();
+
+  if (barbeariaAberta()) {
+    statusEl.innerHTML = `
+      <span class="emoji">💈</span> 
+      <strong>Estamos aberto agora!</strong><br>
+      <small>Atendendo com estilo até as <b>17:00</b> — garanta já o seu horário ✂️</small>
+    `;
+    statusEl.className = "status aberto";
+  } else if (hora < 9) {
+    statusEl.innerHTML = `
+      <span class="emoji">☀️</span> 
+      <strong>Ainda não abrimos</strong><br>
+      <small>Voltamos às <b>09:00</b> — aproveite e agende antecipadamente 😉</small>
+    `;
+    statusEl.className = "status fechado";
+  } else {
+    statusEl.innerHTML = `
+      <span class="emoji">🌙</span> 
+      <strong>Encerramos por hoje</strong><br>
+      <small>Funcionamos das <b class="hora-fechado">09:00 às 17:00</b>. Reserve seu horário para amanhã 💇‍♂️</small>
+    `;
+    statusEl.className = "status fechado";
   }
+}
 
   atualizarStatusBarbearia();
   setInterval(atualizarStatusBarbearia, 60000);
 
   // ======== Agendar ========
-  form.addEventListener("submit", e => {
-    e.preventDefault();
-    const nome = document.getElementById("nomeCliente").value.trim();
-    const data = document.getElementById("dataHorario").value;
-    const servico = document.getElementById("servico").value;
+form.addEventListener("submit", e => {
+  e.preventDefault();
 
-    if (!nome || !data || !servico) return alert("Preencha todos os campos!");
+  const nome = document.getElementById("nomeCliente").value.trim();
+  const data = document.getElementById("dataAgendamento").value;
+  const hora = document.getElementById("horaAgendamento").value;
+  const dataHora = `${data}T${hora}`;
+  const servico = document.getElementById("servico").value;
 
-    const dataSelecionada = new Date(data);
-    const horaSelecionada = dataSelecionada.getHours();
-    if (horaSelecionada < 9 || horaSelecionada >= 17) {
-      alert("⚠️ Só é possível agendar para o outro dia das 09:00 às 17:00.");
-      return;
-    }
+  if (!nome || !data || !hora || !servico) {
+    alert("⚠️ Preencha todos os campos!");
+    return;
+  }
 
-    const horarioOcupado = clientes.some(c => c.data === data);
-    if (horarioOcupado) {
-      alert("⚠️ Já existe um agendamento neste horário. Por favor, escolha outro.");
-      return;
-    }
+  const dataSelecionada = new Date(dataHora);
+  const horaSelecionada = dataSelecionada.getHours();
+  const agora = new Date();
 
-    clientes.push({ nome, data, servico, confirmado: false });
-    salvar("clientes", clientes);
-    form.reset();
-    alert("✅ Agendamento realizado com sucesso!");
-    atualizarListas();
-  });
+  // 🕒 Verifica se o horário selecionado está dentro do expediente
+  if (horaSelecionada < 9 || horaSelecionada >= 17) {
+    alert("💈 Estamos fora do horário de atendimento (09:00 às 17:00). Mas relaxa, você pode garantir seu horário para amanhã dentro do período de funcionamento! 😉");
+    return;
+  }
 
+  // 🔹 Se for o mesmo dia, verifica se a barbearia ainda está aberta
+  const mesmoDia = dataSelecionada.toDateString() === agora.toDateString();
+  if (mesmoDia && (agora.getHours() < 9 || agora.getHours() >= 17)) {
+    alert("O estabelecimento está fechado agora. Você pode agendar para outro dia dentro do horário de funcionamento. 😉");
+    return;
+  }
+
+  // 🛑 Impede agendamentos duplicados no mesmo horário
+  const horarioOcupado = clientes.some(c => c.data === dataHora);
+  if (horarioOcupado) {
+    alert("⚠️ Já existe um agendamento neste horário. Por favor, escolha outro horário disponível.");
+    return;
+  }
+
+  // ✅ Caso esteja tudo certo, salva o agendamento
+  clientes.push({ nome, data: dataHora, servico, confirmado: false });
+  salvar("clientes", clientes);
+  form.reset();
+  alert("✅ Agendamento realizado com sucesso!");
+  atualizarListas();
+});
+  
   // ======== Funções principais ========
   window.confirmarAgendamento = (i) => {
     clientes[i].confirmado = true;
@@ -226,7 +262,7 @@ btnBarbeiro.addEventListener("click", () => {
     if (confirm("Deseja realmente cancelar este agendamento?")) {
       clientes.splice(i, 1);
       salvar("clientes", clientes);
-      alert("❌ Agendamento cancelado com sucesso.");
+      alert("Agendamento cancelado com sucesso.");
       atualizarListas();
     }
   };
@@ -344,4 +380,24 @@ btnBarbeiro.addEventListener("click", () => {
       promptEvento = null;
     }
   });
+});
+
+// ===== Modal de Agendamento =====
+const abrirModal = document.getElementById("abrirModalAgendamento");
+const modal = document.getElementById("modalAgendamento");
+const fecharModal = document.querySelector(".fechar-modal");
+
+abrirModal.addEventListener("click", () => {
+  modal.style.display = "flex";
+});
+
+fecharModal.addEventListener("click", () => {
+  modal.style.display = "none";
+});
+
+// Fecha o modal ao clicar fora dele
+window.addEventListener("click", (e) => {
+  if (e.target === modal) {
+    modal.style.display = "none";
+  }
 });
