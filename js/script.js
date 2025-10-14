@@ -12,14 +12,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const cardAgendamentos = document.getElementById("areaAgendamentos");
   const cardLixeira = document.getElementById("areaLixeira");
-  const cardGaleria = document.getElementById("areaGaleria");
+  
   const btnVerAgendamentos = document.getElementById("verAgendamentos");
   const btnVerLixeira = document.getElementById("verLixeira");
   const inputFoto = document.getElementById("inputFoto");
   const btnAdicionarFoto = document.getElementById("btnAdicionarFoto");
-  const galeriaBarbeiro = document.getElementById("galeriaBarbeiro");
-  const galeriaCliente = document.getElementById("galeriaCliente");
-
   const btnVerAgendamentosCliente = document.getElementById("btnVerAgendamentosCliente");
   const areaAgendamentosCliente = document.getElementById("areaAgendamentosCliente");
   const listaAgendamentosCliente = document.getElementById("listaAgendamentosCliente");
@@ -37,7 +34,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let clientes = carregar("clientes");
 let lixeira = carregar("lixeira");
-let fotosGaleria = carregar("fotosGaleria");
 
 const SENHA_BARBEIRO = "0000";
 const CHAVE_ACESSO_BARBEIRO = PREFIXO + "acessoBarbeiro";
@@ -280,13 +276,12 @@ form.addEventListener("submit", e => {
 
   atualizarListas();
 
-  // ======== Alternar entre Agendamentos / Lixeira / Galeria ========
+  // === agendamento e lixeira ==
   let mostrandoLixeira = false;
 
   btnVerAgendamentos.addEventListener("click", () => {
     cardAgendamentos.classList.remove("oculto");
     cardLixeira.classList.add("oculto");
-    cardGaleria.classList.add("oculto");
     mostrandoLixeira = false;
     btnVerAgendamentos.classList.add("ativo");
     btnVerLixeira.classList.remove("ativo");
