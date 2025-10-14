@@ -16,8 +16,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const cardGaleria = document.getElementById("areaGaleria");
   const btnVerAgendamentos = document.getElementById("verAgendamentos");
   const btnVerLixeira = document.getElementById("verLixeira");
-  const btnVerGaleria = document.getElementById("verGaleria");
-
   const inputFoto = document.getElementById("inputFoto");
   const btnAdicionarFoto = document.getElementById("btnAdicionarFoto");
   const galeriaBarbeiro = document.getElementById("galeriaBarbeiro");
@@ -279,7 +277,6 @@ form.addEventListener("submit", e => {
     mostrandoLixeira = false;
     btnVerAgendamentos.classList.add("ativo");
     btnVerLixeira.classList.remove("ativo");
-    btnVerGaleria.classList.remove("ativo");
     btnVerLixeira.textContent = "Abrir Lixeira";
   });
 
@@ -294,50 +291,6 @@ form.addEventListener("submit", e => {
       cardAgendamentos.classList.remove("oculto");
       btnVerLixeira.textContent = "Abrir Lixeira";
     }
-  });
-
-  btnVerGaleria.addEventListener("click", () => {
-    cardGaleria.classList.remove("oculto");
-    cardAgendamentos.classList.add("oculto");
-    cardLixeira.classList.add("oculto");
-  });
-
-  // ======== GALERIA ========
-  const atualizarGaleria = () => {
-    galeriaBarbeiro.innerHTML = "";
-    galeriaCliente.innerHTML = "";
-    fotosGaleria.forEach((foto, index) => {
-      const imgBarbeiro = document.createElement("img");
-      imgBarbeiro.src = foto;
-      imgBarbeiro.title = "Clique para remover";
-      imgBarbeiro.addEventListener("click", () => {
-        if (confirm("Remover esta foto da galeria?")) {
-          fotosGaleria.splice(index, 1);
-          salvar("fotosGaleria", fotosGaleria);
-          atualizarGaleria();
-        }
-      });
-      galeriaBarbeiro.appendChild(imgBarbeiro);
-
-      const imgCliente = document.createElement("img");
-      imgCliente.src = foto;
-      galeriaCliente.appendChild(imgCliente);
-    });
-  };
-
-  atualizarGaleria();
-
-  btnAdicionarFoto.addEventListener("click", () => {
-    const arquivo = inputFoto.files[0];
-    if (!arquivo) return alert("Selecione uma imagem!");
-    const leitor = new FileReader();
-    leitor.onload = (e) => {
-      fotosGaleria.push(e.target.result);
-      salvar("fotosGaleria", fotosGaleria);
-      inputFoto.value = "";
-      atualizarGaleria();
-    };
-    leitor.readAsDataURL(arquivo);
   });
 
   // ======== CLIENTE: Ver agendamentos ========
