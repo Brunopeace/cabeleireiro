@@ -4,9 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Studio do Cabeleireiro</title>
-  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/style.css">
   <link rel="manifest" href="manifest.json">
-<script src="js/script.js"></script>  
+  <script defer src="js/app.js"></script>
   
   <style>
 .overlay {
@@ -55,7 +55,7 @@
 </head>
 <body>
     
-   <!-- 🔒 Tela de bloqueio -->
+    <!-- 🔒 Tela de bloqueio -->
 <div id="trialOverlay" class="overlay" style="display:none;">
   <div class="overlay-content">
     <h2>⚠️ Período de teste expirado</h2>
@@ -66,7 +66,7 @@
 </div>
     
   <header>
-    <h1>💈 Studio do Cabeleireiro</h1>
+    <h1>💈 CLAUDIO HAIR</h1>
     <div class="painel-switch">
 <button id="btnCliente" class="ativo">Cliente</button>
       <button id="btnBarbeiro">Barbeiro</button>
@@ -77,29 +77,51 @@
     <!-- Painel do Cliente -->
     <section id="painelCliente" class="painel ativo">
       <p id="statusBarbearia" class="status"></p>
-      <div class="h2-agendar">
-            <h2>Agendar Horário</h2>
+     
+      <!-- Botão principal -->
+<button id="abrirModalAgendamento" class="btn-agendar">💈 Agendar Horário</button>
+
+<!-- Modal de Agendamento -->
+<div id="modalAgendamento" class="modal">
+  <div class="modal-conteudo">
+    <span class="fechar-modal">&times;</span>
+    <h2>Agendar Horário</h2>    
+
+    <form id="formCliente">
+      <input type="text" id="nomeCliente" placeholder="Seu nome" required>
+
+      <div class="campo-duplo">
+        <div class="campo-personalizado">
+          <label for="dataAgendamento"><small>Escolha o dia</small></label>
+          <input type="date" id="dataAgendamento" required>
         </div>
-      <form id="formCliente">
-        <input type="text" id="nomeCliente" placeholder="Seu nome" required>
-        <input type="datetime-local" id="dataHorario" required>
-        <select id="servico" required>
-  <option value="">Selecione o serviço</option>
-  <option value="Corte Masculino">Corte Masculino - R$30</option>
-  <option value="Corte Feminino">Corte Feminino - R$40</option>
-  <option value="Barba">Barba - R$20</option>
-  <option value="Coloração">Coloração - R$60</option>
-  <option value="Hidratação">Hidratação - R$40</option>
-  <option value="Luzes">Luzes / Mechas - R$120</option>
-  <option value="Progressiva">Progressiva - R$150</option>
-  <option value="Escova">Escova - R$40</option>
-</select>
- <button type="submit">Confirmar Agendamento</button>
- <button id="btnVerAgendamentosCliente" class="btn-secundario" type="button">Ver Meus Agendamentos</button>
-      </form>
+        <div class="campo-personalizado">
+          <label for="horaAgendamento"><small>Escolha a hora</small></label>
+          <input type="time" id="horaAgendamento" required>
+        </div>
+      </div>
 
+      <select id="servico" required>
+        <option value="">Selecione o serviço</option>
+        <option value="Corte Masculino">Corte Masculino - R$30</option>
+        <option value="Corte Feminino">Corte Feminino - R$40</option>
+        <option value="Barba">Barba - R$20</option>
+        <option value="Coloração">Coloração - R$60</option>
+        <option value="Hidratação">Hidratação - R$40</option>
+        <option value="Luzes">Luzes / Mechas - R$120</option>
+        <option value="Progressiva">Progressiva - R$150</option>
+        <option value="Escova">Escova - R$40</option>
+      </select>
 
-<!-- Modal de Agendamentos -->
+      <button type="submit" class="btn-confirmar"> Confirmar Agendamento</button>
+      <button id="btnVerAgendamentosCliente" class="btn-secundario" type="button">
+        Ver Meus Agendamentos
+      </button>
+    </form>
+  </div>
+</div>
+      
+          <!-- Modal de Agendamentos -->
 <div id="modalAgendamentos" class="modal-visualizar">
   <div class="modal-conteudo">
     <h3>Meus Agendamentos<span class="fechar-modal">&times;</span></h3>
@@ -155,7 +177,7 @@
   </footer>
 
   <button id="btnInstalar" class="instalar"><img src="img/icon-192.png" class="img-instalar"> Instalar Aplicativo</button>
-
+  
   <script>
 document.addEventListener("DOMContentLoaded", () => {
   const overlay = document.getElementById("trialOverlay");
