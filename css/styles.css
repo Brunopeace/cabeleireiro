@@ -13,6 +13,19 @@ body {
   flex-direction: column;  
 }
 
+.banner {
+    height: 170px;
+    width: 300px;
+    border-radius: 10px;
+}
+
+.div-banner {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+
+
 #formCliente {
     margin: 0;
     top: 0;
