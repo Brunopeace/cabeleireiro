@@ -1,3 +1,6 @@
+
+
+
 * {  
   margin: 0;  
   padding: 0;  
@@ -11,7 +14,132 @@ body {
   min-height: 100vh;  
   display: flex;  
   flex-direction: column;  
-}  
+}
+
+#formCliente {
+    margin: 0;
+    top: 0;
+}
+
+/* ===== BOTÃO PRINCIPAL AGENDAR ===== */
+.btn-agendar {
+  display: block;
+  margin: 25px auto;
+  background: linear-gradient(135deg, #0d6efd, #6610f2);
+  color: #fff;
+  font-size: 1.2rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 50px;
+  padding: 14px 28px;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(13, 110, 253, 0.3);
+  transition: all 0.3s ease;
+}
+.btn-agendar:hover {
+  transform: scale(1.05);
+  background: linear-gradient(135deg, #0b5ed7, #520dc2);
+}
+
+/* ===== MODAL DE AGENDAMENTO ===== */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 999;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.6);
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn 0.3s ease;
+  backdrop-filter: blur(5px);
+}
+
+.modal-conteudo {
+  background: #fff;
+  border-radius: 16px;
+  padding: 25px 30px;
+  width: 95%;
+  max-width: 420px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+  animation: slideUp 0.4s ease;
+  position: relative;
+}
+
+.modal-conteudo h2 {
+  text-align: center;
+  color: orange;
+  margin-bottom: 18px;
+  font-weight: 700;
+  
+}
+
+/* Botão fechar modal */
+.fechar-modal {
+  position: absolute;
+  right: 25px;
+  top: 18px;
+  font-size: 1.8rem;
+  cursor: pointer;
+  color: #555;
+  transition: 0.3s;
+}
+.fechar-modal:hover { color: #000; transform: scale(1.2); }
+
+/* ===== CAMPOS DE DATA E HORA ===== */
+.campo-duplo {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: space-between;
+}
+
+.campo-personalizado {
+  flex: 1;
+  min-width: 48%;
+}
+
+.campo-personalizado input[type="date"],
+.campo-personalizado input[type="time"] {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  color: #333;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+.campo-personalizado input[type="date"]:focus,
+.campo-personalizado input[type="time"]:focus {
+  border-color: #0d6efd;
+  box-shadow: 0 0 8px rgba(13, 110, 253, 0.3);
+  outline: none;
+  background: #f9fbff;
+}
+
+.campo-personalizado label {
+  display: block;
+  margin-bottom: 5px;
+  color: #555;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+/* Oculta ícones padrões, deixa o campo limpo */
+input[type="date"]::-webkit-calendar-picker-indicator,
+input[type="time"]::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  opacity: 0.6;
+  transition: opacity 0.3s;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator:hover,
+input[type="time"]::-webkit-calendar-picker-indicator:hover {
+  opacity: 1;
+}
   
 /* ===== Botão de Instalar Aplicativo ===== */
 .instalar {
@@ -83,7 +211,11 @@ body {
   background: #ffe0e0;  
   color: #c31432;  
   box-shadow: 0 0 8px rgba(195, 20, 50, 0.2);  
-}  
+}
+
+.hora-fechado {
+    color: blue;
+}
   
 /* =========================  
    CABEÇALHO  
@@ -108,6 +240,7 @@ header h1 {
   letter-spacing: 1px;
   text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
   margin-bottom: 12px;
+  color: Orange;
 }
   
 
