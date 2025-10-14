@@ -664,12 +664,93 @@ ul {
 }  
   
   
-footer {          
-  background: #0d6efd;          
-  color: #fff;          
-  text-align: center;          
-  padding: 10px;          
-  font-size: 0.9rem;          
+/* ===== RODAPÉ E CRÉDITO ===== */
+footer {
+  background: linear-gradient(135deg, #0d6efd, #6610f2);
+  color: #fff;
+  text-align: center;
+  padding: 15px 10px;
+  font-size: 0.95rem;
+  font-family: "Poppins", sans-serif;
+  letter-spacing: 0.3px;
+  box-shadow: 0 -3px 10px rgba(0, 0, 0, 0.15);
+  position: relative;
+  z-index: 10;
+}
+
+/* Texto geral */
+footer p {
+  margin: 0;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* Link do nome */
+footer a#autor {
+  color: #fff;
+  font-weight: 600;
+  text-decoration: none;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-block;
+}
+
+/* Ícone do WhatsApp (opcional, aparece no hover) */
+footer a#autor::before {
+  content: "💬";
+  opacity: 0;
+  position: absolute;
+  left: -22px;
+  top: 50%;
+  transform: translateY(-50%);
+  transition: opacity 0.3s ease, left 0.3s ease;
+}
+
+/* Efeitos de hover */
+footer a#autor:hover {
+  color: #25d366; /* verde WhatsApp */
+  text-shadow: 0 0 10px rgba(37, 211, 102, 0.8);
+  animation: brilho 1.5s infinite alternate;
+}
+
+footer a#autor:hover::before {
+  opacity: 1;
+  left: -26px;
+}
+
+/* Linha animada embaixo do nome */
+footer a#autor::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 0%;
+  height: 2px;
+  background: #25d366;
+  transition: width 0.3s ease;
+}
+
+footer a#autor:hover::after {
+  width: 100%;
+}
+
+/* Efeito de brilho suave */
+@keyframes brilho {
+  0%, 100% {
+    text-shadow: 0 0 8px rgba(37, 211, 102, 0.5);
+  }
+  50% {
+    text-shadow: 0 0 16px rgba(37, 211, 102, 1);
+  }
+}
+
+/* Responsivo */
+@media (max-width: 600px) {
+  footer {
+    font-size: 0.85rem;
+    padding: 12px;
+  }
 }  
   
 /* =========================  
