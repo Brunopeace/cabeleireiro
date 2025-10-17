@@ -9,8 +9,8 @@ const CACHE_NAME = "claudio-style-v3";
 const FILES_TO_CACHE = [
   "/",
   "/index.html",
-  "/manifest.json",
   "/js/script.js",
+  "/manifest.json",
   "/css/styles.css",
   "/img/icon-192.png",
   "/img/icon-512.png"
