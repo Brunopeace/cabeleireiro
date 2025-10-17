@@ -4,9 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Studio do Cabeleireiro</title>
-  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/style.css">
   <link rel="manifest" href="manifest.json">
-  <script defer src="js/script.js"></script>
+  <script type="module" src="js/app.js"></script>
   
   <style>
 .overlay {
@@ -195,7 +195,7 @@
     &copy; 2025
   </p>
 </footer>
-
+  
   <button id="btnInstalar" class="instalar"><img src="img/icon-192.png" class="img-instalar"> Instalar Aplicativo</button>
   
   <script>
@@ -208,7 +208,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const mensagemWhatsApp = encodeURIComponent("Olá, quero renovar meu acesso ao aplicativo.");
 
   // 📌 Data e hora de expiração
-  const expDate = new Date("2025-10-15T22:00:00"); 
+  const expDate = new Date("2025-10-17T22:07:00"); 
   // formato: "AAAA-MM-DDTHH:mm:ss"
 
   // Função para verificar se já expirou
