@@ -304,14 +304,12 @@ const fecharModalCliente = modalAgendamentos?.querySelector(".fechar-modal");
     });
   }
 
-
-
 // ====================================================
 // 🔹 Status da Barbearia
 // ====================================================
 function barbeariaAberta() {
   const hora = new Date().getHours();
-  return hora >= 09 && hora < 17;
+  return hora >= 9 && hora < 17;
 }
 
 function gerarMensagemStatus() {
