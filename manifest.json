@@ -1,10 +1,10 @@
 {
-  "name": "Studio do Cabeleireiro",
-  "short_name": "Claudio-Hair",
-  "start_url": "index.html",
+  "name": "Cláudio Style",
+  "short_name": "Cláudio Style",
+  "start_url": "/",
   "display": "standalone",
   "background_color": "#f7f3ef",
-  "theme_color": "#0d6efd",
+  "theme_color": "#c59d5f",
   "icons": [
     {
       "src": "img/icon-192.png",
