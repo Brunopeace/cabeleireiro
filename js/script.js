@@ -522,24 +522,48 @@ window.addEventListener("click", (e) => {
   if (e.target === modalAgendamento) modalAgendamento.style.display = "none";
   if (e.target === modalAgendamentos) modalAgendamentos.style.display = "none";
 });
-  
-  // ====================================================
-  // 🔹 Instalação PWA
-  // ====================================================
-  let promptEvento;
-  window.addEventListener("beforeinstallprompt", (e) => {
-    e.preventDefault();
-    promptEvento = e;
-    btnInstalar.style.display = "block";
-  });
 
-  btnInstalar.addEventListener("click", async () => {
-    btnInstalar.style.display = "none";
-    if (promptEvento) {
-      promptEvento.prompt();
-      const resultado = await promptEvento.userChoice;
-      if (resultado.outcome === "accepted") console.log("✅ App instalado!");
-      promptEvento = null;
-    }
-  });
+
+// ===============================
+ // 📱 Instalação do Aplicativo PWA
+// ===============================
+
+let eventoInstalacao = null;
+
+// Quando o evento 'beforeinstallprompt' for disparado
+window.addEventListener("beforeinstallprompt", (e) => {
+  e.preventDefault(); // Impede o prompt automático
+  eventoInstalacao = e;
+  console.log("📲 Evento de instalação detectado!");
+  btnInstalar.style.display = "inline-flex"; // Mostra o botão
+});
+
+// Quando o usuário clicar no botão de instalar
+btnInstalar.addEventListener("click", async () => {
+  if (!eventoInstalacao) {
+    alert("⚠️ Instalação não disponível neste momento.");
+    return;
+  }
+
+  btnInstalar.textContent = "Instalando...";
+  eventoInstalacao.prompt(); // Mostra o prompt oficial
+  const escolha = await eventoInstalacao.userChoice;
+
+  if (escolha.outcome === "accepted") {
+    console.log("✅ Usuário aceitou instalar o app");
+    btnInstalar.textContent = "Aplicativo Instalado!";
+  } else {
+    console.log("❌ Usuário cancelou a instalação");
+    btnInstalar.textContent = "Instalar Aplicativo";
+  }
+
+  eventoInstalacao = null;
+  setTimeout(() => (btnInstalar.style.display = "none"), 2000);
+});
+
+// Ocultar botão após instalação concluída
+window.addEventListener("appinstalled", () => {
+  console.log("🎉 Aplicativo PWA instalado!");
+  btnInstalar.style.display = "none";
+    });
 });
