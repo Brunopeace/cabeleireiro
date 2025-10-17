@@ -1,7 +1,7 @@
 {
-  "name": "Cláudio Style",
+  "name": "Studio do Cabeleireiro",
   "short_name": "Cláudio Style",
-  "start_url": "/",
+  "start_url": "index.html",
   "display": "standalone",
   "background_color": "#f7f3ef",
   "theme_color": "#c59d5f",
