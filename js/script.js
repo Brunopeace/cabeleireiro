@@ -304,6 +304,68 @@ const fecharModalCliente = modalAgendamentos?.querySelector(".fechar-modal");
     });
   }
 
+
+
+// ====================================================
+// 🔹 Status da Barbearia
+// ====================================================
+function barbeariaAberta() {
+  const hora = new Date().getHours();
+  return hora >= 09 && hora < 17;
+}
+
+function gerarMensagemStatus() {
+  const hora = new Date().getHours();
+  const dia = new Date().toLocaleDateString("pt-BR", { weekday: "long" });
+  const saudacao =
+    hora < 12 ? "☀️ Bom dia!" :
+    hora < 18 ? "🌤️ Boa tarde!" :
+    "🌙 Boa noite!";
+
+  if (barbeariaAberta()) {
+    return `
+      <div class="msg-aberto">
+        ${saudacao}<br>
+        💈 <strong>Estamos abertos, ${dia} é dia de ficar no estilo!</strong><br>
+        <small>Atendimento das <b>09:00</b> às <b>17:00</b>. Venha garantir seu visual!</small>
+      </div>
+    `;
+  } else if (hora < 9) {
+    return `
+      <div class="msg-fechado">
+        ${saudacao}<br>
+        ⏰ <strong>Ainda estamos nos preparando!</strong><br>
+        <small>Voltamos com tudo às <b>09:00</b>. Reserve seu horário agora e seja o primeiro do dia!</small>
+      </div>
+    `;
+  } else {
+    return `
+      <div class="msg-fechado">
+        ${saudacao}<br>
+        🌙 <strong>Fechamos por hoje, mas o estilo não descansa!</strong><br>
+        <small>Funcionamos de <b>09:00</b> às <b>17:00</b>. Agende e garanta seu corte amanhã.</small>
+      </div>
+    `;
+  }
+}
+
+function atualizarStatusBarbearia() {
+  const statusEl = document.getElementById("statusBarbearia");
+  if (!statusEl) return;
+
+  statusEl.innerHTML = gerarMensagemStatus();
+  statusEl.className = barbeariaAberta() ? "status aberto" : "status fechado";
+}
+
+// 🔁 Atualiza ao carregar e a cada 1 minuto
+atualizarStatusBarbearia();
+setInterval(atualizarStatusBarbearia, 60000);
+
+
+
+
+
+
   // ====================================================
   // 🔹 Agendar
   // ====================================================
@@ -378,7 +440,7 @@ form.reset();
     setTimeout(() => {
       popup.classList.add("oculto");
       popup.style.display = "none";
-    }, 6000);
+    }, 7000);
 
   } catch (error) {
     console.error("❌ Erro ao salvar agendamento:", error);
@@ -392,7 +454,6 @@ abrirModal?.addEventListener("click", () => modalAgendamento.style.display = "fl
 // 🔹 Fechar modal de agendamento
 fecharModalAgendamento?.addEventListener("click", () => modalAgendamento.style.display = "none");
 
-// 🔹 Quando o cliente clicar em "Ver Meus Agendamentos"
 // 🔹 Quando o cliente clicar em "Ver Meus Agendamentos"
 btnVerAgendamentosCliente?.addEventListener("click", async () => {
   const nomeSalvo = localStorage.getItem("barbearia_nomeCliente");
