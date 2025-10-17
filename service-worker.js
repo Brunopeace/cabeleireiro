@@ -3,7 +3,7 @@
 // ==============================
 
 // Nome do cache (mude o número da versão quando alterar o app)
-const CACHE_NAME = "claudio-style-v1";
+const CACHE_NAME = "claudio-style-v2"; // ⬅️ altere o número sempre que fizer grandes mudanças
 
 // Arquivos essenciais para o funcionamento offline
 const FILES_TO_CACHE = [
@@ -59,39 +59,25 @@ self.addEventListener("activate", (event) => {
 // ==============================
 // 🌐 INTERCEPTAÇÃO DE REQUISIÇÕES
 // ==============================
-
 self.addEventListener("fetch", (event) => {
-  // Ignora requisições de outros domínios (ex: Firebase)
+  // Ignora requisições externas (ex: APIs, Firebase, etc.)
   if (!event.request.url.startsWith(self.location.origin)) return;
 
   event.respondWith(
     caches.match(event.request).then((cachedResponse) => {
-      if (cachedResponse) {
-        // 🔁 Retorna do cache imediatamente
-        atualizarCacheEmSegundoPlano(event.request);
-        return cachedResponse;
-      }
-
-      // 🌍 Caso não esteja no cache, busca na rede e salva
-      return fetch(event.request)
+      const fetchPromise = fetch(event.request)
         .then((response) => {
-          if (!response || response.status !== 200 || response.type !== "basic") {
-            return response;
+          if (response && response.status === 200) {
+            const responseToCache = response.clone();
+            caches.open(CACHE_NAME).then((cache) => {
+              cache.put(event.request, responseToCache);
+            });
           }
-
-          const responseToCache = response.clone();
-          caches.open(CACHE_NAME).then((cache) => {
-            cache.put(event.request, responseToCache);
-          });
-
           return response;
         })
-        .catch(() => {
-          // 🔌 Página offline personalizada (opcional)
-          if (event.request.mode === "navigate") {
-            return caches.match("/index.html");
-          }
-        });
+        .catch(() => cachedResponse);
+
+      return cachedResponse || fetchPromise;
     })
   );
 });
