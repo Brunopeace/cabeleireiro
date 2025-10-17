@@ -5,7 +5,7 @@ const CACHE_NAME = "claudio-style-v1";
 const FILES_TO_CACHE = [
   "/",
   "/index.html",
-  "/script.js",
+  "/js/script.js",
   "/manifest.json",
   "/css/styles.css",
   "/img/icon-192.png",
