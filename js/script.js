@@ -73,6 +73,13 @@ if ("serviceWorker" in navigator) {
 // ====================================================
 document.addEventListener("DOMContentLoaded", async () => {
   const PREFIXO = "barbearia_";
+  
+  // Gera um ID único fixo por dispositivo (para o cliente)
+if (!localStorage.getItem("barbearia_clienteId")) {
+  const id = "cli_" + Math.random().toString(36).substring(2, 12);
+  localStorage.setItem("barbearia_clienteId", id);
+}
+const clienteId = localStorage.getItem("barbearia_clienteId");
 
   // ===== Elementos principais =====
   const form = document.getElementById("formCliente");
@@ -401,11 +408,12 @@ setInterval(atualizarStatusBarbearia, 60000);
 
   try {
     const novoAgendamento = {
-      nome,
-      data: dataHora,
-      servico,
-      confirmado: false
-    };
+  nome,
+  data: dataHora,
+  servico,
+  confirmado: false,
+  clienteId: clienteId // 🔥 Identifica de qual cliente/dispositivo veio o agendamento
+};
 
     // 🔥 Salva no Firestore e obtém o ID
     const id = await salvarAgendamento(novoAgendamento);
@@ -459,32 +467,33 @@ fecharModalAgendamento?.addEventListener("click", () => modalAgendamento.style.d
 
 // 🔹 Quando o cliente clicar em "Ver Meus Agendamentos"
 btnVerAgendamentosCliente?.addEventListener("click", async () => {
-  const nomeSalvo = localStorage.getItem("barbearia_nomeCliente");
+  const clienteId = localStorage.getItem("barbearia_clienteId");
 
-  if (!nomeSalvo) {
-    alert("⚠️ Você ainda não fez nenhum agendamento. Faça um primeiro!");
-    return; // Sai da função sem abrir o modal
+  if (!clienteId) {
+    alert("⚠️ Não foi possível identificar seu usuário. Tente refazer seu primeiro agendamento.");
+    return;
   }
 
   try {
     const todosAgendamentos = await carregarAgendamentos();
 
-    // 🔍 Filtra apenas os agendamentos do cliente logado
-    let meusAgendamentos = todosAgendamentos.filter(
-      (a) => a.nome && a.nome.toLowerCase() === nomeSalvo.toLowerCase()
+    // 🔍 Filtra todos os agendamentos criados neste mesmo dispositivo
+    const meusAgendamentos = todosAgendamentos.filter(
+      (a) => a.clienteId === clienteId
     );
-
-    // 🗓️ Ordena os agendamentos do mais recente para o mais antigo
-    meusAgendamentos.sort((a, b) => new Date(b.data) - new Date(a.data));
 
     listaAgendamentosCliente.innerHTML = "";
 
     if (meusAgendamentos.length === 0) {
       listaAgendamentosCliente.innerHTML = `
-        <p class="sem-agendamento">Você ainda não tem nenhum agendamento.</p>
+        <p class="sem-agendamento">📅 Você ainda não tem nenhum agendamento.</p>
         <p class="sem-agendamento2">Agende agora e garanta seu horário!</p>
       `;
     } else {
+      // 🗓️ Ordena do mais recente para o mais antigo
+      meusAgendamentos.sort((a, b) => new Date(b.data) - new Date(a.data));
+
+      // 🧾 Monta a lista dos agendamentos do cliente
       meusAgendamentos.forEach((a) => {
         const li = document.createElement("li");
         li.innerHTML = `
@@ -492,7 +501,7 @@ btnVerAgendamentosCliente?.addEventListener("click", async () => {
             <strong class="nome-cliente">${a.nome}</strong><br>
             <span class="data-agendamento">${new Date(a.data).toLocaleString()}</span><br>
             <strong class="servicos-cliente">${a.servico}</strong><br>
-            <small class="status-agendamento ${a.confirmado ? 'confirmado' : 'pendente'}">
+            <small class="status-agendamento ${a.confirmado ? "confirmado" : "pendente"}">
               ${a.confirmado ? "✅ Confirmado pelo barbeiro" : "⏳ Aguardando confirmação"}
             </small>
           </div>
@@ -502,9 +511,8 @@ btnVerAgendamentosCliente?.addEventListener("click", async () => {
       });
     }
 
-    // 🔹 Exibe o modal após montar a lista
+    // 🔹 Exibe o modal com a lista pronta
     modalAgendamentos.style.display = "flex";
-
   } catch (error) {
     console.error("❌ Erro ao carregar agendamentos:", error);
     alert("Erro ao carregar seus agendamentos. Tente novamente.");
@@ -520,11 +528,14 @@ fecharModalCliente?.addEventListener("click", () => {
 window.cancelarAgendamentoCliente = async (id) => {
   if (confirm("Deseja cancelar este agendamento?")) {
     try {
-      await excluirAgendamentoFirestore(id);
+      await excluirAgendamentoFirestore(id); // 🔥 Remove do Firebase
+      clientes = clientes.filter(a => a.id !== id); // Remove localmente
+      salvar("clientes", clientes);
+      atualizarListas();
       alert("🚫 Agendamento cancelado com sucesso!");
       modalAgendamentos.style.display = "none";
     } catch (e) {
-      console.error("Erro ao cancelar agendamento:", e);
+      console.error("❌ Erro ao cancelar agendamento:", e);
       alert("Erro ao cancelar o agendamento. Tente novamente.");
     }
   }
