@@ -486,7 +486,7 @@ btnVerAgendamentosCliente?.addEventListener("click", async () => {
 
     if (meusAgendamentos.length === 0) {
       listaAgendamentosCliente.innerHTML = `
-        <p class="sem-agendamento">📅 Você ainda não tem nenhum agendamento.</p>
+        <p class="sem-agendamento">Você ainda não tem nenhum agendamento.</p>
         <p class="sem-agendamento2">Agende agora e garanta seu horário!</p>
       `;
     } else {
@@ -546,7 +546,6 @@ window.addEventListener("click", (e) => {
   if (e.target === modalAgendamento) modalAgendamento.style.display = "none";
   if (e.target === modalAgendamentos) modalAgendamentos.style.display = "none";
 });
-
 
 // ===============================
  // 📱 Instalação do Aplicativo PWA
