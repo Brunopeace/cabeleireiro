@@ -234,10 +234,10 @@ header h1 {
    💈 STATUS DA BARBEARIA
 ============================ */
 #statusBarbearia {
-  background: #c4ffd2;
+  background: #ffd18c;
   text-align: center;
   margin: 20px auto;
-  padding: 10px 10px;
+  padding: 6px 6px;
   border-radius: 14px;
   width: 100%;
   max-width: 450px;
@@ -593,7 +593,6 @@ ul {
   font-weight: 500;
   color: #555;
 }
-
 
 /* ================================
    🎯 BOTÕES DE AÇÃO
