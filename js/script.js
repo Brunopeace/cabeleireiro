@@ -226,9 +226,9 @@ if (listaAgendamentosCliente) {
 }
   }
 
-  // ====================================================
+  // =========================================
   // 🔹 Funções principais
-  // ====================================================
+  // =========================================
   window.confirmarAgendamentoLocal = async (i) => {
     clientes[i].confirmado = true;
     salvar("clientes", clientes);
@@ -357,7 +357,7 @@ function gerarMensagemStatus() {
     return `
       <div class="msg-fechado">
         ${saudacao}<br>
-        🌙 <strong>Fechamos por hoje, mas o estilo não descansa!</strong><br>
+         <strong>Fechamos por hoje, mas o estilo não descansa!</strong><br>
         <small>Funcionamos das <b>09:00</b> às <b>17:00</b>. Agende e garanta seu corte amanhã.</small>
       </div>
     `;
