@@ -469,17 +469,20 @@ btnVerAgendamentosCliente?.addEventListener("click", async () => {
   try {
     const todosAgendamentos = await carregarAgendamentos();
 
-    
     // 🔍 Filtra apenas os agendamentos do cliente logado
-    const meusAgendamentos = todosAgendamentos.filter(
+    let meusAgendamentos = todosAgendamentos.filter(
       (a) => a.nome && a.nome.toLowerCase() === nomeSalvo.toLowerCase()
     );
+
+    // 🗓️ Ordena os agendamentos do mais recente para o mais antigo
+    meusAgendamentos.sort((a, b) => new Date(b.data) - new Date(a.data));
 
     listaAgendamentosCliente.innerHTML = "";
 
     if (meusAgendamentos.length === 0) {
       listaAgendamentosCliente.innerHTML = `
-        <p class="sem-agendamento">Nenhum agendamento encontrado.</p><p class="sem-agendamento2">Agende agora e garanta seu horário!</p>
+        <p class="sem-agendamento">Você ainda não tem nenhum agendamento.</p>
+        <p class="sem-agendamento2">Agende agora e garanta seu horário!</p>
       `;
     } else {
       meusAgendamentos.forEach((a) => {
@@ -499,7 +502,7 @@ btnVerAgendamentosCliente?.addEventListener("click", async () => {
       });
     }
 
-    // 🔹 Só abre o modal após verificar e montar a lista
+    // 🔹 Exibe o modal após montar a lista
     modalAgendamentos.style.display = "flex";
 
   } catch (error) {
