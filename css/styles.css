@@ -8,9 +8,12 @@
 body {  
   background: #f4f6fa;  
   color: #333;  
-  min-height: 100vh;  
-  display: flex;  
-  flex-direction: column;  
+  min-height: 100vh;
+  height: 100%;
+  overflow-x: hidden;  
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .banner {
@@ -24,7 +27,6 @@ body {
     align-items: center;
     display: flex;
 }
-
 
 #formCliente {
     margin: 0;
@@ -228,82 +230,107 @@ header h1 {
   color: Orange;
 }
 
-/* ===============================
-   💈 STATUS
-=============================== */
-strong {
-    color: green;
-}
-
-.status-barbearia {
+/* ============================
+   💈 STATUS DA BARBEARIA
+============================ */
+#statusBarbearia {
+  background: #c4ffd2;
   text-align: center;
-  padding: 15px 18px;
-  border-radius: 12px;
+  margin: 20px auto;
+  padding: 10px 10px;
+  border-radius: 14px;
+  width: 100%;
+  max-width: 450px;
   font-family: "Poppins", sans-serif;
-  font-weight: 500;
-  margin: 15px auto 25px;
-  width: 95%;
-  max-width: 500px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-  animation: fadeIn 0.5s ease;
+  transition: all 0.4s ease;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
 }
 
-.status {
-  text-align: center;  
-  font-size: 1rem;  
-  margin-bottom: 12px;  
-  font-weight: 600;  
-  padding: 10px;  
-  border-radius: 10px;  
-  transition: 0.3s ease;  
-}  
-  
-.status.aberto {  
-  background: #d1f7d6;  
-  color: #0d6efd;  
-  box-shadow: 0 0 8px rgba(13, 110, 253, 0.2);  
-}
-
-/* ===== ABERTO ===== */
-
+/* 🟢 Quando estiver aberto */
 .msg-aberto {
-  background: #e8f9ef;
-  border-left: 5px solid #00b74a;
-  color: #0081d6;
+  background: linear-gradient(135deg, #d4f9e7, #e8fdf4);
+  border-left: 6px solid #28a745;
+  color: blue;
+  font-size: 1rem;
+  animation: fadeIn 0.6s ease;
+}
+
+/* 🔴 Quando estiver fechado */
+.msg-fechado {
+  background: linear-gradient(135deg, #fff0f0, #ffeaea);
+  border-left: 6px solid #dc3545;
+  font-size: 1rem;
+  animation: fadeIn 0.6s ease;
+}
+
+/* Pequenas descrições */
+.msg-fechado small {
+  color: #007696;
+  display: block;
+  margin-top: 6px;
+  font-size: 0.9rem;
+  font-weight: bold;
 }
 
 .msg-aberto small {
-    color: #c98600;
-}
-
-/* ===== FECHADO ===== */
-.msg-fechado {
-  background: #fff0f0;
-  border-left: 5px solid #dc3545;
-  color: #340B90;
-}
-
-/* ===== TEXTO ===== */
-.status-barbearia strong {
+  color: #ab7500;
   display: block;
-  font-size: 1rem;
-  margin-bottom: 5px;
-}
-
-small {
-  display: block;
-  color: #0081d6;
+  margin-top: 6px;
   font-size: 0.9rem;
+  font-weight: bold;
 }
 
-/* ===== ANIMAÇÃO ===== */
+/* 💬 Destaques */
+.msg-aberto strong {
+  color: #008c09;
+  font-weight: bold;
+}
+
+.msg-fechado strong {
+  color: #960000;
+  font-weight: bold;
+}
+
+/* ============================
+   🌞 SAUDAÇÕES COLORIDAS
+============================ */
+.saudacao {
+  display: inline-block;
+  font-weight: 700;
+  font-size: 1.1rem;
+  margin-bottom: 4px;
+  animation: aparecer 0.8s ease;
+}
+
+/* ☀️ Bom dia */
+.cor-manha {
+  color: #0000ff; /* Laranja suave e alegre */
+  text-shadow: 0 0 8px rgba(243,156,18,0.4);
+}
+
+/* 🌤️ Boa tarde */
+.cor-tarde {
+  color: #0000ff; /* Azul vibrante */
+  text-shadow: 0 0 8px rgba(13,110,253,0.3);
+}
+
+/* 🌙 Boa noite */
+.cor-noite {
+  color:  #006b19; /* Roxo elegante */
+  text-shadow: 0 0 8px rgba(102,16,242,0.4);
+}
+
+/* ============================
+   ✨ ANIMAÇÕES
+============================ */
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-10px); }
+  from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
-.titulomsgfechado {
-    color: green;
+@keyframes aparecer {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
 }
 
 /* =========================  
@@ -343,7 +370,10 @@ small {
 ========================= */  
 main {  
   flex: 1;  
-  padding: 20px;  
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;  
 }  
   
 .painel {  
@@ -501,50 +531,267 @@ ul {
   color: #0d6efd;          
   margin-bottom: 10px;          
 }  
+      
+/* ================================
+   💈 LISTA DE AGENDAMENTOS Barbeiro
+================================ */
+#listaClientes {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-height: 420px;
+  overflow-y: auto;
+  padding: 10px;
+  scrollbar-width: thin;
+}
+
+/* Cada item da lista */
+#listaClientes li {
+  background: linear-gradient(135deg, #ffffff, #f8f9ff);
+  border-radius: 14px;
+  padding: 16px 18px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  transition: all 0.3s ease;
+  border-left: 5px solid #0d6efd;
+  animation: fadeIn 0.4s ease;
+}
+
+/* Efeito ao passar o mouse */
+#listaClientes li:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 15px rgba(13, 110, 253, 0.2);
+}
+
+/* Área de informações do cliente */
+#listaClientes li div {
+  color: #333;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+/* Nome do cliente */
+#listaClientes li strong:first-of-type {
+  color: orange;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+/* Serviço */
+#listaClientes li strong:last-of-type {
+  color: #6610f2;
+  font-weight: 600;
+}
+
+/* Status (confirmado / aguardando) */
+#listaClientes li small {
+  display: inline-block;
+  margin-top: 5px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #555;
+}
+
+
+/* ================================
+   🎯 BOTÕES DE AÇÃO
+================================ */
+#listaClientes li button {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: 0.3s ease;
+}
+
+/* Confirmar */
+#listaClientes .btnConfirmar {
+  background: linear-gradient(135deg, #28a745, #20c997);
+  color: #fff;
+  box-shadow: 0 3px 10px rgba(40, 167, 69, 0.3);
+}
+
+#listaClientes .btnConfirmar:hover {
+  transform: translateY(-2px);
+  background: linear-gradient(135deg, #34d058, #2ebf91);
+}
+
+/* Excluir */
+#listaClientes .btnExcluir {
+  background: linear-gradient(135deg, #ff4e50, #c31432);
+  color: #fff;
+  box-shadow: 0 3px 10px rgba(195, 20, 50, 0.3);
+}
+
+#listaClientes .btnExcluir:hover {
+  transform: translateY(-2px);
+  background: linear-gradient(135deg, #ff6f61, #e83e8c);
+}
+
+/* ================================
+   ✨ ANIMAÇÃO SUAVE
+================================ */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
   
-/* =========================  
-   AGENDAMENTOS (BARBEIRO E CLIENTE)  
-========================= */  
-#listaClientes,  
-#listaAgendamentosCliente {  
-  display: flex;  
-  flex-direction: column;  
-  gap: 12px;  
-  max-height: 420px;  
-  overflow-y: auto;  
-  scrollbar-width: thin;  
+/* ================================
+   💈 LISTA DE AGENDAMENTOS DO CLIENTE
+================================ */
+#listaAgendamentosCliente {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-height: 420px;
+  overflow-y: auto;
+  padding: 12px;
+  scrollbar-width: thin;
+  scrollbar-color: #6610f2 #f5f5f5;
+}
+
+/* Cada item (agendamento) */
+#listaAgendamentosCliente li {
+  background: linear-gradient(135deg, #ffffff, #f5f7ff);
+  border-radius: 14px;
+  margin: 8px 0;
+  padding: 16px 18px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  transition: all 0.3s ease;
+  border-left: 5px solid #0d6efd;
+  animation: fadeIn 0.4s ease;
+}
+
+#listaAgendamentosCliente li:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 14px rgba(13, 110, 253, 0.25);
+}
+
+/* =========================
+   ESTILO - CLIENTE
+========================= */
+.nome-cliente {
+  color: #ff8c00; /* Laranja vibrante */
+  font-size: 1rem;
+  font-weight: 700;
+  text-transform: capitalize;
+  letter-spacing: 0.3px;
+}
+
+.servicos-cliente {
+  color: #ff8c00; /* Verde suave */
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.data-agendamento {
+  color: #007bff; /* Azul elegante */
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.status-agendamento {
+  display: inline-block;
+  margin-top: 5px;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.status-agendamento.confirmado {
+  color: #198754; /* Verde sucesso */
+}
+
+.status-agendamento.pendente {
+  color: red; /* Laranja de atenção */
+}
+
+/* Mensagem sem agendamentos */
+.sem-agendamento {
+  text-align: center;
+  color: #ff8c00;
+  background: #f9f9ff;
+  border-radius: 10px;
+  padding: 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+}
+
+.sem-agendamento2 {
+  text-align: center;
+  color: #005407;
+  background: #f9f9ff;
+  border-radius: 10px;
+  padding: 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+}
+
+/* Pequena animação ao aparecer */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ================================
+   🎯 BOTÃO "CANCELAR"
+================================ */
+#listaAgendamentosCliente .btnExcluir {
+  background: linear-gradient(135deg, #ff4e50, #c31432);
+  color: #fff;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: 0.3s ease;
+  box-shadow: 0 3px 10px rgba(195, 20, 50, 0.25);
+}
+
+#listaAgendamentosCliente .btnExcluir:hover {
+  transform: translateY(-2px);
+  background: linear-gradient(135deg, #ff6f61, #e83e8c);
+}
+
+/* ================================
+   ✨ ANIMAÇÃO SUAVE
+================================ */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ================================
+   📱 RESPONSIVIDADE
+================================ */
+@media (max-width: 600px) {
+  #listaAgendamentosCliente li {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  #listaAgendamentosCliente .btnExcluir {
+    margin-top: 10px;
+    align-self: flex-end;
+  }
 }  
-  
-#listaClientes li,  
-#listaAgendamentosCliente li {  
-  background: #f9fafc;  
-  border-radius: 12px;  
-  padding: 15px 20px;  
-  display: flex;  
-  justify-content: space-between;  
-  align-items: flex-start;  
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);  
-  transition: all 0.2s ease;  
-}  
-  
-#listaClientes li:hover,  
-#listaAgendamentosCliente li:hover {  
-  transform: translateY(-3px);  
-  box-shadow: 0 5px 14px rgba(0, 0, 0, 0.15);  
-}  
-  
-#listaClientes li div,  
-#listaAgendamentosCliente li div {  
-  color: #333;  
-  line-height: 1.4;  
-  font-size: 15px;  
-}  
-  
-.servicos {  
-  color: #007bff;  
-  font-weight: 600;  
-}  
-  
+    
 /* Botões de ação */  
 .btnConfirmar {  
   background: linear-gradient(135deg, #28a745, #218838);  
@@ -691,6 +938,7 @@ footer {
   color: #fff;
   text-align: center;
   padding: 15px 10px;
+  margin-top: auto;
   font-size: 0.95rem;
   font-family: "Poppins", sans-serif;
   letter-spacing: 0.3px;
