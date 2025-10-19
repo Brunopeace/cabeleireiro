@@ -58,7 +58,7 @@ async function excluirAgendamentoFirestore(id) {
   }
 }
 
-// Registro do Service Worker
+// ✅ Registro do Service Worker
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
     navigator.serviceWorker
@@ -201,22 +201,22 @@ const fecharModalCliente = modalAgendamentos?.querySelector(".fechar-modal");
     });
 
     // Lista do cliente
-    if (listaAgendamentosCliente) {
-      listaAgendamentosCliente.innerHTML = "";
-      clientes.forEach((c, i) => {
-        const li = document.createElement("li");
-        li.innerHTML = `
-          <div>
-            <strong>${c.nome}</strong><br>
-            ${new Date(c.data).toLocaleString()}<br>
-            <strong>${c.servico}</strong><br>
-            <small>${c.confirmado ? "✅ Confirmado pelo barbeiro" : "⏳ Aguardando confirmação"}</small>
-          </div>
-          <button class="btnExcluir" onclick="cancelarAgendamento(${i})">Cancelar</button>
-        `;
-        listaAgendamentosCliente.appendChild(li);
-      });
-    }
+if (listaAgendamentosCliente) {
+  listaAgendamentosCliente.innerHTML = "";
+  clientes.forEach((c, i) => {
+    const li = document.createElement("li");
+    li.innerHTML = `
+      <div>
+        <strong class="nome-cliente">${c.nome}</strong><br>
+        ${new Date(c.data).toLocaleString()}<br>
+        <strong class="servicos-cliente">${c.servico}</strong><br>
+        <small>${c.confirmado ? "✅ Confirmado pelo barbeiro" : "⏳ Aguardando confirmação"}</small>
+      </div>
+      <button class="btnExcluir" onclick="cancelarAgendamento(${i})">Cancelar</button>
+    `;
+    listaAgendamentosCliente.appendChild(li);
+  });
+}
   }
 
   // ====================================================
@@ -326,15 +326,15 @@ function gerarMensagemStatus() {
   const hora = new Date().getHours();
   const dia = new Date().toLocaleDateString("pt-BR", { weekday: "long" });
   const saudacao =
-    hora < 12 ? "☀️ Bom dia!" :
-    hora < 18 ? "🌤️ Boa tarde!" :
-    "🌙 Boa noite!";
+  hora < 12 ? "<span class='saudacao cor-manha'>☀️ Bom dia!</span>" :
+  hora < 18 ? "<span class='saudacao cor-tarde'>🌤️ Boa tarde!</span>" :
+  "<span class='saudacao cor-noite'>🌙 Boa noite!</span>";
 
   if (barbeariaAberta()) {
     return `
       <div class="msg-aberto">
         ${saudacao}<br>
-        💈 <strong>Estamos abertos, ${dia} é dia de ficar no estilo!</strong><br>
+        💈 <strong>Estamos aberto, ${dia} é dia de ficar no estilo!</strong><br>
         <small>Atendimento das <b>09:00</b> às <b>17:00</b>. Venha garantir seu visual!</small>
       </div>
     `;
@@ -342,7 +342,7 @@ function gerarMensagemStatus() {
     return `
       <div class="msg-fechado">
         ${saudacao}<br>
-        ⏰ <strong>Ainda estamos nos preparando!</strong><br>
+         <strong>Ainda estamos nos preparando!</strong><br>
         <small>Voltamos com tudo às <b>09:00</b>. Reserve seu horário agora e seja o primeiro do dia!</small>
       </div>
     `;
@@ -351,7 +351,7 @@ function gerarMensagemStatus() {
       <div class="msg-fechado">
         ${saudacao}<br>
         🌙 <strong>Fechamos por hoje, mas o estilo não descansa!</strong><br>
-        <small>Funcionamos de <b>09:00</b> às <b>17:00</b>. Agende e garanta seu corte amanhã.</small>
+        <small>Funcionamos das <b>09:00</b> às <b>17:00</b>. Agende e garanta seu corte amanhã.</small>
       </div>
     `;
   }
@@ -368,11 +368,6 @@ function atualizarStatusBarbearia() {
 // 🔁 Atualiza ao carregar e a cada 1 minuto
 atualizarStatusBarbearia();
 setInterval(atualizarStatusBarbearia, 60000);
-
-
-
-
-
 
   // ====================================================
   // 🔹 Agendar
@@ -394,7 +389,7 @@ setInterval(atualizarStatusBarbearia, 60000);
 
   const horaSelecionada = new Date(dataHora).getHours();
   if (horaSelecionada < 9 || horaSelecionada >= 17) {
-    alert("💈 Os agendamentos só podem ser feitos entre 09:00 e 17:00.");
+    alert("Os agendamentos só podem ser feitos entre 09:00 e 17:00.");
     return;
   }
 
@@ -474,24 +469,29 @@ btnVerAgendamentosCliente?.addEventListener("click", async () => {
   try {
     const todosAgendamentos = await carregarAgendamentos();
 
+    
     // 🔍 Filtra apenas os agendamentos do cliente logado
     const meusAgendamentos = todosAgendamentos.filter(
-      a => a.nome && a.nome.toLowerCase() === nomeSalvo.toLowerCase()
+      (a) => a.nome && a.nome.toLowerCase() === nomeSalvo.toLowerCase()
     );
 
     listaAgendamentosCliente.innerHTML = "";
 
     if (meusAgendamentos.length === 0) {
-      listaAgendamentosCliente.innerHTML = "<p>Nenhum agendamento encontrado.</p>";
+      listaAgendamentosCliente.innerHTML = `
+        <p class="sem-agendamento">Nenhum agendamento encontrado.</p><p class="sem-agendamento2">Agende agora e garanta seu horário!</p>
+      `;
     } else {
       meusAgendamentos.forEach((a) => {
         const li = document.createElement("li");
         li.innerHTML = `
           <div>
-            <strong>${a.nome}</strong><br>
-            ${new Date(a.data).toLocaleString()}<br>
-            <strong>${a.servico}</strong><br>
-            <small>${a.confirmado ? "✅ Confirmado pelo barbeiro" : "⏳ Aguardando confirmação"}</small>
+            <strong class="nome-cliente">${a.nome}</strong><br>
+            <span class="data-agendamento">${new Date(a.data).toLocaleString()}</span><br>
+            <strong class="servicos-cliente">${a.servico}</strong><br>
+            <small class="status-agendamento ${a.confirmado ? 'confirmado' : 'pendente'}">
+              ${a.confirmado ? "✅ Confirmado pelo barbeiro" : "⏳ Aguardando confirmação"}
+            </small>
           </div>
           <button class="btnExcluir" onclick="cancelarAgendamentoCliente('${a.id}')">Cancelar</button>
         `;
