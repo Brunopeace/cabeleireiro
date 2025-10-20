@@ -3,7 +3,7 @@
 // ==============================
 
 // Nome do cache (mude o número da versão quando alterar o app)
-const CACHE_NAME = "claudio-style-v5"; // ⬅️ altere o número sempre que fizer grandes mudanças
+const CACHE_NAME = "claudio-style-v6"; // ⬅️ altere o número sempre que fizer grandes mudanças
 
 // Arquivos essenciais para o funcionamento offline
 const FILES_TO_CACHE = [
