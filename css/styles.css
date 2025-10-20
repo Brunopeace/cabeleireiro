@@ -207,7 +207,7 @@ input[type="time"]::-webkit-calendar-picker-indicator:hover {
     justify-content: center;
     align-items: center;
     display: flex;
-    margin-top: -10px;
+    margin-top: 15px;
     margin-bottom: 5px;
 }
  
@@ -1165,10 +1165,4 @@ footer a#autor:hover::after {
 /* ===== ESTADO OCULTO ===== */
 .oculto {
   display: none !important;
-}
-
-html, body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
 }
