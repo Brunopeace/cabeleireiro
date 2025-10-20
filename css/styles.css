@@ -9,10 +9,9 @@
 body {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
-  overflow-x: hidden;
+  min-height: 92vh;
+  
 }
- 
 
 .banner {
     height: 170px;
@@ -207,7 +206,7 @@ input[type="time"]::-webkit-calendar-picker-indicator:hover {
     justify-content: center;
     align-items: center;
     display: flex;
-    margin-top: 40px;
+    margin-top: 20px;
     margin-bottom: 5px;
 }
  
@@ -382,6 +381,7 @@ main {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+  margin: 0;
 }  
   
 .painel {  
@@ -911,8 +911,8 @@ footer {
   background: linear-gradient(135deg, #0d6efd, #6610f2);
   color: #fff;
   text-align: center;
-  padding: 10px 15px;
-  margin-top: -40;
+  padding: 6px;
+  margin-top: -30px;
   font-size: 0.95rem;
   font-family: "Poppins", sans-serif;
   letter-spacing: 0.3px;
