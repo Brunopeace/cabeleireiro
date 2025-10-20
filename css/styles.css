@@ -34,6 +34,15 @@ body {
 }
 
 /* ===== BOTÃO PRINCIPAL AGENDAR ===== */
+.btn-agendar-div {
+    margin-top: -10px;
+}
+
+.btnVerAgendamentosCliente-div {
+    margin-top: -10px;
+}
+
+
 .btn-agendar {
   display: block;
   margin: 25px auto;
@@ -236,7 +245,7 @@ header h1 {
 #statusBarbearia {
   background: #ffd18c;
   text-align: center;
-  margin: 20px auto;
+  margin-top: -5px;
   padding: 6px 6px;
   border-radius: 14px;
   width: 100%;
@@ -861,41 +870,6 @@ ul {
 }  
   
 /* =========================  
-   GALERIA  
-========================= */  
-#areaGaleria {  
-  margin-top: 15px;  
-}  
-  
-#areaGaleria #inputFoto {  
-  display: block;  
-  margin: 0 auto 10px;  
-  padding: 8px;  
-  border: 1px solid #ccc;  
-  border-radius: 8px;  
-  width: 100%;  
-  max-width: 320px;  
-}  
-  
-#areaGaleria #btnAdicionarFoto {  
-  display: block;  
-  margin: 10px auto 20px;  
-  background: linear-gradient(135deg, #0d6efd, #6610f2);  
-  color: #fff;  
-  border: none;  
-  padding: 10px 20px;  
-  border-radius: 25px;  
-  font-size: 0.95rem;  
-  cursor: pointer;  
-  transition: 0.3s;  
-}  
-  
-#areaGaleria #btnAdicionarFoto:hover {  
-  transform: translateY(-2px);  
-  background: linear-gradient(135deg, #0b5ed7, #520dc2);  
-}  
-  
-/* =========================  
    BOTÃO SECUNDÁRIO (Cliente)  
 ========================= */  
 .btn-secundario {          
@@ -936,7 +910,7 @@ footer {
   background: linear-gradient(135deg, #0d6efd, #6610f2);
   color: #fff;
   text-align: center;
-  padding: 15px 10px;
+  padding: 2px;
   margin-top: auto;
   font-size: 0.95rem;
   font-family: "Poppins", sans-serif;
