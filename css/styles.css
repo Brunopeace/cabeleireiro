@@ -911,8 +911,8 @@ footer {
   background: linear-gradient(135deg, #0d6efd, #6610f2);
   color: #fff;
   text-align: center;
-  padding: 2px;
-  margin-top: auto;
+  padding: 10px 15px;
+  margin-top: -40;
   font-size: 0.95rem;
   font-family: "Poppins", sans-serif;
   letter-spacing: 0.3px;
