@@ -207,7 +207,7 @@ input[type="time"]::-webkit-calendar-picker-indicator:hover {
     justify-content: center;
     align-items: center;
     display: flex;
-    margin-top: 20px;
+    margin-top: 40px;
     margin-bottom: 5px;
 }
  
