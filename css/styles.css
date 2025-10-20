@@ -3,18 +3,16 @@
   padding: 0;  
   box-sizing: border-box;  
   font-family: "Poppins", sans-serif;  
-}  
-  
-body {  
-  background: #f4f6fa;  
-  color: #333;  
-  min-height: 100vh;
-  height: 100%;
-  overflow-x: hidden;  
+}
+
+/* Garante que o body distribua corretamente o espaço */
+body {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  min-height: 100vh;
+  overflow-x: hidden;
 }
+ 
 
 .banner {
     height: 170px;
@@ -245,10 +243,11 @@ header h1 {
 #statusBarbearia {
   background: #ffd18c;
   text-align: center;
-  margin-top: -5px;
+  margin-top: 20px;
+  margin-left: 10px;
   padding: 6px 6px;
   border-radius: 14px;
-  width: 100%;
+  width: 95%;
   max-width: 450px;
   font-family: "Poppins", sans-serif;
   transition: all 0.4s ease;
@@ -377,12 +376,12 @@ header h1 {
 /* =========================  
    PAINÉIS  
 ========================= */  
-main {  
-  flex: 1;  
-  padding: 20px;
+/* O conteúdo principal ocupa todo o espaço restante entre o header e o footer */
+main {
+  flex: 1 0 auto;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;  
+  justify-content: flex-start;
 }  
   
 .painel {  
@@ -905,7 +904,9 @@ ul {
   border-radius: 10px;  
 }  
   
-/* ===== RODAPÉ E CRÉDITO ===== */
+
+
+/* ===== FOOTER ===== */
 footer {
   background: linear-gradient(135deg, #0d6efd, #6610f2);
   color: #fff;
@@ -916,7 +917,7 @@ footer {
   font-family: "Poppins", sans-serif;
   letter-spacing: 0.3px;
   box-shadow: 0 -3px 10px rgba(0, 0, 0, 0.15);
-  position: relative;
+  position: relative;  
   z-index: 10;
 }
 
@@ -1164,4 +1165,10 @@ footer a#autor:hover::after {
 /* ===== ESTADO OCULTO ===== */
 .oculto {
   display: none !important;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
 }
