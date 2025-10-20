@@ -4,9 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Studio do Cabeleireiro</title>
-  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/style.css">
   <link rel="manifest" href="manifest.json">
-  <script type="module" src="js/script.js"></script>
+  <script type="module" src="js/app.js"></script>
   
   <style>
 .overlay {
@@ -54,7 +54,6 @@
 </style>
 </head>
 <body>
-    
     <!-- 🔒 Tela de bloqueio -->
 <div id="trialOverlay" class="overlay" style="display:none;">
   <div class="overlay-content">
@@ -77,9 +76,11 @@
     <!-- Painel do Cliente -->
     <section id="painelCliente" class="painel ativo">
       <p id="statusBarbearia" class="status"></p>
-     
+      
+     <div class="btn-agendar-div">
       <!-- Botão principal -->
 <button id="abrirModalAgendamento" class="btn-agendar">Agendar Horário</button>
+</div>
 
 <!-- Modal de Agendamento -->
 <div id="modalAgendamento" class="modal">
@@ -125,9 +126,11 @@
   Seu horário foi reservado com sucesso.</p>
 </div>
 
+<div class="btnVerAgendamentosCliente-div">
 <button id="btnVerAgendamentosCliente" class="btn-secundario" type="button">
         Ver Meus Agendamentos
       </button>
+</div>
 <div class="div-banner">    
 <img src="img/variacoes.jpg" class="banner">
 </div>
@@ -146,7 +149,6 @@
         <button id="btnVoltarAgendar" class="btn-secundario">Voltar</button>
       </div>
 
-      <div id="galeriaCliente" class="galeria"></div>
     </section>
 
     <!-- Painel do Barbeiro -->
@@ -171,17 +173,8 @@
         <h3>Lixeira</h3>
         <ul id="lixeiraClientes"></ul>
       </div>
-
-      <!-- Galeria -->
-   <div id="areaGaleria" class="areaPainel oculto">
-        <h3>Adicionar Fotos</h3>
-        <input type="file" id="inputFoto" accept="image/*">
-     <button id="btnAdicionarFoto">Adicionar</button>
-     <div id="galeriaBarbeiro" class="galeria"></div>
-      </div>
     </section>
   </main>
-
   <footer>
   <p>
     Desenvolvido por 
@@ -208,7 +201,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const mensagemWhatsApp = encodeURIComponent("Olá, quero renovar meu acesso ao aplicativo.");
 
   // 📌 Data e hora de expiração
-  const expDate = new Date("2025-10-30T00:00:00"); 
+  const expDate = new Date("2025-11-17T23:00:00"); 
   // formato: "AAAA-MM-DDTHH:mm:ss"
 
   // Função para verificar se já expirou
