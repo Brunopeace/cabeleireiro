@@ -124,14 +124,18 @@ const fecharModalCliente = modalAgendamentos?.querySelector(".fechar-modal");
   // 🔹 Sincronização inicial com Firebase
   // ====================================================
   try {
-    clientes = await carregarAgendamentos();
-    salvar("clientes", clientes);
-    atualizarListas();
-  } catch (error) {
-    console.error("⚠️ Falha ao carregar agendamentos do Firebase:", error);
-    clientes = carregar("clientes");
-    atualizarListas();
-  }
+  clientes = await carregarAgendamentos();
+  salvar("clientes", clientes);
+} catch (error) {
+  console.error("⚠️ Falha ao carregar agendamentos do Firebase:", error);
+  clientes = carregar("clientes");
+}
+
+// 🗑️ Sempre carrega a lixeira do localStorage
+lixeira = carregar("lixeira");
+
+// Atualiza a interface
+atualizarListas();
 
   // ====================================================
   // 🔹 Alternar Painel
@@ -226,9 +230,9 @@ if (listaAgendamentosCliente) {
 }
   }
 
-  // =========================================
+  // ====================================================
   // 🔹 Funções principais
-  // =========================================
+  // ====================================================
   window.confirmarAgendamentoLocal = async (i) => {
     clientes[i].confirmado = true;
     salvar("clientes", clientes);
@@ -266,29 +270,38 @@ if (listaAgendamentosCliente) {
 };
 
   window.restaurarCliente = async (i) => {
-    const restaurado = lixeira.splice(i, 1)[0];
-    if (!restaurado) return;
+  const restaurado = lixeira.splice(i, 1)[0];
+  if (!restaurado) return;
 
-    try {
-      const novoDoc = await addDoc(collection(db, "agendamentos"), {
-        nome: restaurado.nome,
-        data: restaurado.data,
-        servico: restaurado.servico,
-        confirmado: restaurado.confirmado || false
-      });
+  try {
+    // 🔥 Restaura no Firestore incluindo o clienteId (essencial)
+    const novoDoc = await addDoc(collection(db, "agendamentos"), {
+      nome: restaurado.nome,
+      data: restaurado.data,
+      servico: restaurado.servico,
+      confirmado: restaurado.confirmado || false,
+      clienteId: restaurado.clienteId || "sem_id" // garante que o cliente continue dono do agendamento
+    });
 
-      restaurado.id = novoDoc.id;
-      clientes.push(restaurado);
-      salvar("clientes", clientes);
-      salvar("lixeira", lixeira);
-      atualizarListas();
+    // 🔹 Atualiza o ID local com o novo ID do Firestore
+    restaurado.id = novoDoc.id;
 
-      console.log(`✅ Cliente restaurado no Firestore (ID: ${novoDoc.id})`);
-    } catch (e) {
-      console.error("❌ Erro ao restaurar agendamento:", e);
-      alert("Erro ao restaurar o agendamento.");
+    // 🔹 Se o clienteId não existia, mantém o mesmo padrão
+    if (!restaurado.clienteId) {
+      restaurado.clienteId = "sem_id";
     }
-  };
+
+    clientes.push(restaurado);
+    salvar("clientes", clientes);
+    salvar("lixeira", lixeira);
+    atualizarListas();
+
+    console.log(`✅ Agendamento restaurado (ID: ${novoDoc.id}, clienteId: ${restaurado.clienteId})`);
+  } catch (e) {
+    console.error("❌ Erro ao restaurar agendamento:", e);
+    alert("Erro ao restaurar o agendamento. Tente novamente.");
+  }
+};
 
   window.excluirDefinitivo = (i) => {
     if (confirm("Excluir definitivamente este cliente?")) {
@@ -357,7 +370,7 @@ function gerarMensagemStatus() {
     return `
       <div class="msg-fechado">
         ${saudacao}<br>
-         <strong>Fechamos por hoje, mas o estilo não descansa!</strong><br>
+        🌙 <strong>Fechamos por hoje, mas o estilo não descansa!</strong><br>
         <small>Funcionamos das <b>09:00</b> às <b>17:00</b>. Agende e garanta seu corte amanhã.</small>
       </div>
     `;
@@ -546,6 +559,7 @@ window.addEventListener("click", (e) => {
   if (e.target === modalAgendamento) modalAgendamento.style.display = "none";
   if (e.target === modalAgendamentos) modalAgendamentos.style.display = "none";
 });
+
 
 // ===============================
  // 📱 Instalação do Aplicativo PWA
