@@ -7,6 +7,15 @@
 
 /* Garante que o body distribua corretamente o espaço */
 
+
+html {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+
+
 body {
   background: #f4f6fa;
   color: #333;
@@ -14,15 +23,52 @@ body {
   flex-direction: column;
   justify-content: space-between;
   overflow-x: hidden;
-  overflow-y: auto;
-  min-height: 100vh; /* ocupa toda a altura */
+  min-height: 93vh;
 }
 
-html, body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 .banner {
     height: 170px;
@@ -49,6 +95,7 @@ html, body {
 .btnVerAgendamentosCliente-div {
     margin-top: -10px;
 }
+
 
 .btn-agendar {
   display: block;
@@ -99,6 +146,7 @@ html, body {
   color: orange;
   margin-bottom: 18px;
   font-weight: 700;
+  
 }
 
 /* Botão fechar modal */
@@ -913,6 +961,8 @@ ul {
   border-radius: 10px;  
 }  
   
+
+
 /* ===== FOOTER ===== */
 footer {
   background: linear-gradient(135deg, #0d6efd, #6610f2);
@@ -1172,4 +1222,45 @@ footer a#autor:hover::after {
 /* ===== ESTADO OCULTO ===== */
 .oculto {
   display: none !important;
+}
+
+/* Remove qualquer espaço inesperado que o navegador adicione */
+#root, #app {
+  min-height: auto !important;
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+/* 🔔 Notificação no botão do Barbeiro */
+.btn-notificacao {
+  position: relative;
+  background: linear-gradient(135deg, #0d6efd, #6610f2);
+  color: #fff;
+  font-weight: 600;
+  border: none;
+  border-radius: 25px;
+  padding: 10px 22px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-notificacao:hover {
+  background: linear-gradient(135deg, #0b5ed7, #520dc2);
+}
+
+#badgeAgendamentos {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: #dc3545;
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: bold;
+  padding: 3px 7px;
+  border-radius: 50%;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
+}
+
+.badge-oculto {
+  display: none;
 }
