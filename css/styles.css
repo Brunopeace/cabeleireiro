@@ -7,14 +7,11 @@
 
 /* Garante que o body distribua corretamente o espaço */
 
-
 html {
   height: 100%;
   margin: 0;
   padding: 0;
 }
-
-
 
 body {
   background: #f4f6fa;
@@ -51,7 +48,6 @@ body {
 .btnVerAgendamentosCliente-div {
     margin-top: -10px;
 }
-
 
 .btn-agendar {
   display: block;
@@ -102,7 +98,6 @@ body {
   color: orange;
   margin-bottom: 18px;
   font-weight: 700;
-  
 }
 
 /* Botão fechar modal */
