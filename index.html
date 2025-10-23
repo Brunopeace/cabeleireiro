@@ -68,15 +68,15 @@
     <h1>💈 CLAUDIO STYLE</h1>
     <div class="painel-switch">
 <button id="btnCliente" class="ativo">Cliente</button>
-      <button id="btnBarbeiro">Barbeiro</button>
+      <button id="btnBarbeiro" class="btn-notificacao">
+  Barbeiro <span id="badgeAgendamentos" class="badge-oculto">0</span>
+</button>
     </div>
   </header>
-
   <main>
     <!-- Painel do Cliente -->
     <section id="painelCliente" class="painel ativo">
-      <p id="statusBarbearia" class="status"></p>
-      
+      <p id="statusBarbearia"></p>
      <div class="btn-agendar-div">
       <!-- Botão principal -->
 <button id="abrirModalAgendamento" class="btn-agendar">Agendar Horário</button>
