@@ -89,6 +89,7 @@ const clienteId = localStorage.getItem("barbearia_clienteId");
   const painelBarbeiro = document.getElementById("painelBarbeiro");
   const btnCliente = document.getElementById("btnCliente");
   const btnBarbeiro = document.getElementById("btnBarbeiro");
+  const badgeAgendamentos = document.getElementById("badgeAgendamentos");
   const btnVerAgendamentosCliente = document.getElementById("btnVerAgendamentosCliente");
   const listaAgendamentosCliente = document.getElementById("listaAgendamentosCliente");
   const btnInstalar = document.getElementById("btnInstalar");
@@ -170,65 +171,99 @@ atualizarListas();
     btnCliente.classList.remove("ativo");
   }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   // ====================================================
   // 🔹 Atualizar Listas
   // ====================================================
   function atualizarListas() {
-    lista.innerHTML = "";
-    lixeiraLista.innerHTML = "";
+  lista.innerHTML = "";
+  lixeiraLista.innerHTML = "";
 
-    // Lista de agendamentos (barbeiro)
-    clientes.forEach((c, i) => {
-      const li = document.createElement("li");
-      li.innerHTML = `
-        <div>
-          <strong>${c.nome}</strong><br>
-          ${new Date(c.data).toLocaleString()}<br>
-          <strong>${c.servico}</strong><br>
-          <small>${c.confirmado ? "✅ Confirmado" : "⏳ Aguardando confirmação"}</small>
-        </div>
-        <div>
-          ${!c.confirmado ? `<button class="btnConfirmar" onclick="confirmarAgendamentoLocal(${i})">Confirmar</button>` : ""}
-          <button class="btnExcluir" onclick="moverParaLixeira(${i})">Excluir</button>
-        </div>
-      `;
-      lista.appendChild(li);
-    });
-
-    // Lixeira
-    lixeira.forEach((c, i) => {
-      const li = document.createElement("li");
-      li.innerHTML = `
-        <div>
-          <strong>${c.nome}</strong><br>
-          ${new Date(c.data).toLocaleString()} - ${c.servico}
-        </div>
-        <div>
-          <button onclick="restaurarCliente(${i})" class="btnRestaurar">Restaurar</button>
-          <button onclick="excluirDefinitivo(${i})" class="btnExcluir">Excluir</button>
-        </div>
-      `;
-      lixeiraLista.appendChild(li);
-    });
-
-    // Lista do cliente
-if (listaAgendamentosCliente) {
-  listaAgendamentosCliente.innerHTML = "";
+  // Lista de agendamentos (barbeiro)
   clientes.forEach((c, i) => {
     const li = document.createElement("li");
     li.innerHTML = `
       <div>
-        <strong class="nome-cliente">${c.nome}</strong><br>
+        <strong>${c.nome}</strong><br>
         ${new Date(c.data).toLocaleString()}<br>
-        <strong class="servicos-cliente">${c.servico}</strong><br>
-        <small>${c.confirmado ? "✅ Confirmado pelo barbeiro" : "⏳ Aguardando confirmação"}</small>
+        <strong>${c.servico}</strong><br>
+        <small>${c.confirmado ? "✅ Confirmado" : "⏳ Aguardando confirmação"}</small>
       </div>
-      <button class="btnExcluir" onclick="cancelarAgendamento(${i})">Cancelar</button>
+      <div>
+        ${!c.confirmado ? `<button class="btnConfirmar" onclick="confirmarAgendamentoLocal(${i})">Confirmar</button>` : ""}
+        <button class="btnExcluir" onclick="moverParaLixeira(${i})">Excluir</button>
+      </div>
     `;
-    listaAgendamentosCliente.appendChild(li);
+    lista.appendChild(li);
   });
-}
+
+  // Lixeira
+  lixeira.forEach((c, i) => {
+    const li = document.createElement("li");
+    li.innerHTML = `
+      <div>
+        <strong>${c.nome}</strong><br>
+        ${new Date(c.data).toLocaleString()} - ${c.servico}
+      </div>
+      <div>
+        <button onclick="restaurarCliente(${i})" class="btnRestaurar">Restaurar</button>
+        <button onclick="excluirDefinitivo(${i})" class="btnExcluir">Excluir</button>
+      </div>
+    `;
+    lixeiraLista.appendChild(li);
+  });
+
+  // Lista do cliente
+  if (listaAgendamentosCliente) {
+    listaAgendamentosCliente.innerHTML = "";
+    clientes.forEach((c, i) => {
+      const li = document.createElement("li");
+      li.innerHTML = `
+        <div>
+          <strong class="nome-cliente">${c.nome}</strong><br>
+          ${new Date(c.data).toLocaleString()}<br>
+          <strong class="servicos-cliente">${c.servico}</strong><br>
+          <small>${c.confirmado ? "✅ Confirmado pelo barbeiro" : "⏳ Aguardando confirmação"}</small>
+        </div>
+        <button class="btnExcluir" onclick="cancelarAgendamento(${i})">Cancelar</button>
+      `;
+      listaAgendamentosCliente.appendChild(li);
+    });
   }
+
+  // 🔔 Atualiza o contador no botão "Barbeiro"
+  const badgeAgendamentos = document.getElementById("badgeAgendamentos");
+  if (badgeAgendamentos) {
+    const pendentes = clientes.filter(c => !c.confirmado).length;
+    if (pendentes > 0) {
+      badgeAgendamentos.textContent = pendentes;
+      badgeAgendamentos.classList.remove("badge-oculto");
+    } else {
+      badgeAgendamentos.classList.add("badge-oculto");
+    }
+  }
+}
 
   // ====================================================
   // 🔹 Funções principais
