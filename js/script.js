@@ -1,7 +1,15 @@
 // ====== Conexão com Firebase ======
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, updateDoc } 
-  from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { 
+  getFirestore, 
+  collection, 
+  addDoc, 
+  getDocs, 
+  deleteDoc, 
+  doc, 
+  updateDoc, 
+  onSnapshot 
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 // 🔥 Configuração do Firebase
 const firebaseConfig = {
@@ -13,9 +21,32 @@ const firebaseConfig = {
   appId: "1:713101598297:web:9ef89f5c974e178c30db48"
 };
 
-// Inicializa Firebase e Firestore
+// ✅ Inicializa Firebase e Firestore
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+
+// ====================================================
+// 🔔 Atualização automática do contador do barbeiro
+// ====================================================
+const agendamentosRef = collection(db, "agendamentos");
+
+onSnapshot(agendamentosRef, (snapshot) => {
+  const clientes = snapshot.docs.map(doc => doc.data());
+  const pendentes = clientes.filter(c => !c.confirmado).length;
+
+  const badgeAgendamentos = document.getElementById("badgeAgendamentos");
+  if (!badgeAgendamentos) return;
+
+  if (pendentes > 0) {
+    badgeAgendamentos.textContent = pendentes;
+    badgeAgendamentos.classList.remove("badge-oculto");
+    badgeAgendamentos.classList.add("pulsar");
+  } else {
+    badgeAgendamentos.classList.add("badge-oculto");
+    badgeAgendamentos.classList.remove("pulsar");
+  }
+});
+
 
 // ====================================================
 // 🔹 Funções Firebase
@@ -170,28 +201,6 @@ atualizarListas();
     btnBarbeiro.classList.add("ativo");
     btnCliente.classList.remove("ativo");
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   // ====================================================
   // 🔹 Atualizar Listas
